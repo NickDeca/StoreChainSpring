@@ -1,4 +1,4 @@
-package com.StoreChain.Controller;
+package com.StoreChain.spring.Controller;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;

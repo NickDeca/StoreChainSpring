@@ -1,12 +1,17 @@
-package com.StoreChain.Controller;
+package com.StoreChain.spring.Controller;
 
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
+@ComponentScan({"com.StoreChain.spring.model"})
+@EntityScan("com.StoreChain.spring.model")
+@EnableJpaRepositories("com.StoreChain.spring.Repository")
 public class ServingWebContentApplication {
 
     @Bean
@@ -16,7 +21,7 @@ public class ServingWebContentApplication {
 	
     public static void main(String[] args) {
     	//System.exit(SpringApplication.exit(
-    	ConfigurableApplicationContext  context = SpringApplication.run(ServingWebContentApplication.class, args);
+    	SpringApplication.run(ServingWebContentApplication.class, args);
     			//));
     }
 }
