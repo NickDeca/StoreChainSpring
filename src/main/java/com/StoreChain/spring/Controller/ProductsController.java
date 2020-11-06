@@ -27,12 +27,12 @@ public class ProductsController {
 		return "productsIndex";
 	}
 	
-	@GetMapping(path="/All")
+	@GetMapping("/All")
 	public @ResponseBody Iterable<Products> getAllProducts(){
 		return productContext.findAll();
 	}
 	
-	@PostMapping(path="/Create")
+	@PostMapping("/Create")
 	public @ResponseBody String CreateNewProduct(
 			@RequestParam int supplier,
 			@RequestParam int category,
@@ -60,7 +60,7 @@ public class ProductsController {
 		return "Saved";
 	}
 
-	@PostMapping(path="/Updated")
+	@PostMapping("/Updated")
 	public @ResponseBody String UpdateProduct(
 			@RequestParam int id,
 			@RequestParam int supplier,
@@ -93,7 +93,7 @@ public class ProductsController {
 		return "Updated";
 	}
 	
-	@PostMapping(path="/Delete")
+	@PostMapping("/Delete")
 	public @ResponseBody String DeleteProduct(@RequestParam int id) {
 		
 		Optional<Products> toBeDeleted = productContext.findById(id);

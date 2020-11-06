@@ -1,4 +1,4 @@
-package com.StoreChain.spring.Controller;
+package com.StoreChain.spring;
 
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan({"com.StoreChain.spring.model"})
+@ComponentScan({"com.StoreChain.spring.Controller"})
 @EntityScan("com.StoreChain.spring.model")
 @EnableJpaRepositories("com.StoreChain.spring.Repository")
 public class ServingWebContentApplication {

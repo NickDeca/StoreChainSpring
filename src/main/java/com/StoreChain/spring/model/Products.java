@@ -21,19 +21,29 @@ public class Products {
 	private int Category;
 	
 	private int Department;
-	
 	private Boolean isDisplay;
 	
+	@Column(name="CostSold")
 	private double CostSold;
-	
+
+	@Column(name="CostBought")   
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private double CostBought;
-	
+
+	@Column(name="QuantityInStorage")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int QuantityInStorage;
-	
+
+	@Column(name="QuantityInDisplay")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int QuantityInDisplay;
-	
+
+	@Column(name="TransactionQuantity")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int TransactionQuantity;
-	
+
+	@Column(name="DepartmentForeignId")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int DepartmentForeignId;
 
 	public int getSupplier_Key() {
