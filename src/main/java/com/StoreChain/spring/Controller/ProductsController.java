@@ -98,6 +98,12 @@ public class ProductsController {
 		return "Updated";
 	}
 	
+	@GetMapping("/Delete")
+	public String DeleteProductGet(Model model) {
+	    model.addAttribute("Products", new Products());
+		return "DeleteProduct";
+	}
+	
 	@PostMapping("/Delete")
 	public @ResponseBody String DeleteProduct(@RequestParam int id) {
 		
