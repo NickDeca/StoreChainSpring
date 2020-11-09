@@ -16,37 +16,49 @@ public class Products {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	private int Supplier_Key;
+	private Integer Supplier_Key;
 	
-	private int Category;
+	private Integer Category;
 	
-	private int Department;
+	private Integer Department;
+	
+	private String Description;
+	
 	private Boolean isDisplay;
 	
 	@Column(name="CostSold")
-	private double CostSold;
+	private Double CostSold;
 
 	@Column(name="CostBought")   
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private double CostBought;
+	private Double CostBought;
 
 	@Column(name="QuantityInStorage")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int QuantityInStorage;
+	private Integer QuantityInStorage;
 
 	@Column(name="QuantityInDisplay")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int QuantityInDisplay;
+	private Integer QuantityInDisplay;
 
 	@Column(name="TransactionQuantity")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int TransactionQuantity;
+	private Integer TransactionQuantity;
 
 	@Column(name="DepartmentForeignId")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int DepartmentForeignId;
+	private Integer DepartmentForeignId;
 
-	public int getSupplier_Key() {
+	public int getid() {
+		return id;
+	}
+
+	public void setid(int Id) {
+		id = Id;
+	}
+	
+	
+	public Integer getSupplier_Key() {
 		return Supplier_Key;
 	}
 
@@ -54,7 +66,7 @@ public class Products {
 		Supplier_Key = supplier_Key;
 	}
 
-	public int getCategory() {
+	public Integer getCategory() {
 		return Category;
 	}
 
@@ -62,7 +74,7 @@ public class Products {
 		Category = category;
 	}
 
-	public int getDepartment() {
+	public Integer getDepartment() {
 		return Department;
 	}
 
@@ -78,7 +90,7 @@ public class Products {
 		this.isDisplay = isDisplay;
 	}
 
-	public double getCostSold() {
+	public Double getCostSold() {
 		return CostSold;
 	}
 
@@ -86,7 +98,7 @@ public class Products {
 		CostSold = costSold;
 	}
 
-	public double getCostBought() {
+	public Double getCostBought() {
 		return CostBought;
 	}
 
@@ -94,7 +106,7 @@ public class Products {
 		CostBought = costBought;
 	}
 
-	public int getQuantityInStorage() {
+	public Integer getQuantityInStorage() {
 		return QuantityInStorage;
 	}
 
@@ -102,7 +114,7 @@ public class Products {
 		QuantityInStorage = quantityInStorage;
 	}
 
-	public int getQuantityInDisplay() {
+	public Integer getQuantityInDisplay() {
 		return QuantityInDisplay;
 	}
 
@@ -110,7 +122,7 @@ public class Products {
 		QuantityInDisplay = quantityInDisplay;
 	}
 
-	public int getTransactionQuantity() {
+	public Integer getTransactionQuantity() {
 		return TransactionQuantity;
 	}
 
@@ -118,12 +130,20 @@ public class Products {
 		TransactionQuantity = transactionQuantity;
 	}
 
-	public int getDepartmentForeignId() {
+	public Integer getDepartmentForeignId() {
 		return DepartmentForeignId;
 	}
 
 	public void setDepartmentForeignId(int departmentForeignId) {
 		DepartmentForeignId = departmentForeignId;
+	}
+
+	public String getDescription() {
+		return Description;
+	}
+
+	public void setDescription(String description) {
+		Description = description;
 	}
 	
 }
