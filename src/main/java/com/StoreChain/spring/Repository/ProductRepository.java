@@ -6,3 +6,4 @@ import com.StoreChain.spring.model.*;
 public interface ProductRepository extends CrudRepository<Products, Integer> {
 
 }
+

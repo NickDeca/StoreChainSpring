@@ -48,13 +48,13 @@ public class ProductsController {
 		return new RedirectView("CreateProduct"); 
 	}
 	
-	@GetMapping("/Updated")
+	@GetMapping("/Update")
 	public String UpdateProductGet(Model model) {
 	    model.addAttribute("Products", new Products());
 		return "UpdateProduct";
 	}
 
-	@PostMapping("/Updated")
+	@PostMapping("/Update")
 	public @ResponseBody String UpdateProduct(@ModelAttribute Products product, Model model){
 		
 		Optional<Products> updateToBe = productContext.findById(product.getid());
