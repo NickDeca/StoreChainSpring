@@ -11,8 +11,6 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "CentralStoreCapital")
-@NamedQuery(name = "Store.findTopByOrderByIdDesc",
-query = "SELECT TOP 1 * FROM CentralStoreCapital ORDER BY ID DESC")
 public class Store {
 	@Id
 	@Column(name = "Id")

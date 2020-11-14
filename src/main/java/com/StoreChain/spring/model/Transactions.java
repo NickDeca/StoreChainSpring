@@ -10,13 +10,21 @@ import javax.persistence.Table;
 public class Transactions {
 
     public int Id;
+    
     public int RecipientKey ;
+    
     public int ProviderKey ;
+    
     public Double Capital ;
+    
     public Integer ProductKey ;
+    
 	public Date DateOfTransaction ;
+	
     public Integer ProductQuantity ;
+    
     public Integer State ;
+    
     public String ErrorText ;
     
     public int getId() {
