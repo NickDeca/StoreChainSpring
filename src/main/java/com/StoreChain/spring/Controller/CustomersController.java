@@ -26,7 +26,7 @@ public class CustomersController {
 	@GetMapping("*")
 	public String Index() {
 		
-		return "CustomersIndex";
+		return "CustomersViews/CustomersIndex";
 	}
 	
 	@GetMapping("/All")
@@ -37,20 +37,20 @@ public class CustomersController {
 	@GetMapping("/Create")
 	public String CreateNewCustomerGet(Model model) {
 	    model.addAttribute("Customers", new Customers());
-		return "CreateCustomer";
+		return "CustomersViews/CreateCustomer";
 	}
 	
 	@PostMapping(path = "/Create")
-	public RedirectView CreateNewCustomer(@ModelAttribute Customers customer, Model model){
+	public @ResponseBody String CreateNewCustomer(@ModelAttribute Customers customer, Model model){
 			
 		customerContext.save(customer);		
-		return new RedirectView("CreateCustomer"); 
+		return "CustomersViews/CreatedCustomer"; 
 	}
 	
 	@GetMapping("/Update")
 	public String UpdateCustomerGet(Model model) {
 	    model.addAttribute("Customers", new Customers());
-		return "UpdateCustomer";
+		return "CustomersViews/UpdateCustomer";
 	}
 	
 	@PostMapping("/Update")
@@ -74,13 +74,13 @@ public class CustomersController {
 		
 		customerContext.save(update);
 		
-		return "Updated";
+		return "CustomersViews/UpdatedCustomer";
 	}
 	
 	@GetMapping("/Delete")
 	public String DeleteCustomerGet(Model model) {
 	    model.addAttribute("Customer", new Customers());
-		return "DeleteCustomer";
+		return "CustomersViews/DeleteCustomer";
 	}
 	
 	@PostMapping("/Delete")
@@ -94,6 +94,6 @@ public class CustomersController {
 		
 		customerContext.delete(customer);
 		
-		return "Deleted";
+		return "CustomersViews/DeletedCustomer";
 	}
 }

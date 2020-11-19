@@ -9,7 +9,7 @@ import com.StoreChain.spring.model.Store;
 
 public interface StoreRepository extends JpaRepository<Store, Integer> {
 
-	@Query("SELECT TOP 1 * FROM CentralStoreCapital ORDER BY ID DESC")
+	@Query(value = "SELECT TOP 1 * FROM CentralStoreCapital ORDER BY ID DESC", nativeQuery = true)
 	Store findTopByOrderByIdDesc();
 	
 }

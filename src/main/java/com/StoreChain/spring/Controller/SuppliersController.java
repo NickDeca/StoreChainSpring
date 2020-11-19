@@ -26,7 +26,7 @@ public class SuppliersController {
 	@GetMapping("*")
 	public String Index() {
 				
-		return "productsIndex";
+		return "SuppliersViews/SuppliersIndex";
 	}
 	
 	@GetMapping("/All")
@@ -37,20 +37,20 @@ public class SuppliersController {
 	@GetMapping("/Create")
 	public String CreateNewProductGet(Model model) {
 	    model.addAttribute("Suppliers", new Suppliers());
-		return "CreateProduct";
+		return "SuppliersViews/CreateProduct";
 	}
 	
 	@PostMapping("/Create")
-	public RedirectView CreateNewProduct(@ModelAttribute Suppliers supplier, Model model){
+	public String CreateNewProduct(@ModelAttribute Suppliers supplier, Model model){
 			
 		SupplierContext.save(supplier);		
-		return new RedirectView("CreateSuppliers"); 
+		return "SuppliersViews/CreatedSuppliers"; 
 	}
 	
 	@GetMapping("/Update")
 	public String UpdateProductGet(Model model) {
 	    model.addAttribute("Products", new Suppliers());
-		return "UpdateSuppliers";
+		return "SuppliersViews/UpdateSuppliers";
 	}
 	
 
@@ -76,13 +76,13 @@ public class SuppliersController {
 						
 		SupplierContext.save(update);
 		
-		return "Updated";
+		return "SuppliersViews/UpdatedSuppliers";
 	}
 	
 	@GetMapping("/Delete")
 	public @ResponseBody String DeleteSupplier(Model model) {
 		model.addAttribute("Suppliers", new Suppliers());
-		return "DeleteSuppliers";
+		return "SuppliersViews/DeleteSuppliers";
 	}
 	
 
@@ -96,6 +96,6 @@ public class SuppliersController {
 		
 		SupplierContext.delete(supplier);
 		
-		return "Deleted";
+		return "SuppliersViews/DeletedSuppliers";
 	}
 }

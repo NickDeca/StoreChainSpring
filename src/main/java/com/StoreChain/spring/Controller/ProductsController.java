@@ -24,10 +24,10 @@ public class ProductsController {
 	@Autowired 
 	private ProductRepository productContext;
 	
-	@GetMapping("/ProdIndex")
+	@GetMapping("*")
 	public String Index() {
 				
-		return "productsIndex";
+		return "ProductsViews/productsIndex";
 	}
 	
 	@GetMapping("/All")
@@ -38,20 +38,20 @@ public class ProductsController {
 	@GetMapping("/Create")
 	public String CreateNewProductGet(Model model) {
 	    model.addAttribute("Products", new Products());
-		return "CreateProduct";
+		return "ProductsViews/CreateProduct";
 	}
 	
 	@PostMapping(path = "/Create")
-	public RedirectView CreateNewProduct(@ModelAttribute Products product, Model model){
+	public String CreateNewProduct(@ModelAttribute Products product, Model model){
 			
 		productContext.save(product);		
-		return new RedirectView("CreateProduct"); 
+		return "ProductsViews/Created"; 
 	}
 	
 	@GetMapping("/Update")
 	public String UpdateProductGet(Model model) {
 	    model.addAttribute("Products", new Products());
-		return "UpdateProduct";
+		return "ProductsViews/UpdateProduct";
 	}
 
 	@PostMapping("/Update")
@@ -95,13 +95,13 @@ public class ProductsController {
 		//TODO check which department is not needed
 		productContext.save(update);
 		
-		return "Updated";
+		return "ProductsViews/Updated";
 	}
 	
 	@GetMapping("/Delete")
 	public String DeleteProductGet(Model model) {
 	    model.addAttribute("Products", new Products());
-		return "DeleteProduct";
+		return "ProductsViews/DeleteProduct";
 	}
 	
 	@PostMapping("/Delete")

@@ -19,6 +19,6 @@ public class StoreController {
 	public String Index(Model model) {
 		
 		model.addAttribute("Store", storeRepository.findTopByOrderByIdDesc());
-		return "StoreIndex";
+		return "StoreViews/StoreIndex";
 	}
 }
