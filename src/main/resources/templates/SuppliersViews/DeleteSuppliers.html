@@ -1,0 +1,43 @@
+<link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap.js"></script>
+
+<script type="text/javascript">  
+function getdeleter(){  
+var number = document.getElementById("deleter").value;  
+document.getElementById("innertextmodal").innerHTML += number + " ?";
+}  
+</script>  
+
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Delete Supplier</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Form</h1>
+    <form action="#" th:action="@{/Suppliers/Delete}" th:object="${Suppliers}" method="post">    
+    	<p>Id of suppplier to be deleted: <input type="number" id="deleter" th:field="*{Id}" /></p>
+    	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="getdeleter()">
+  			Delete
+		</button>
+		    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLabel">Delete Confirmation</h5>
+			      </div>
+			      <div class="modal-body" id=innertextmodal>
+			        Delete the Supplier with Id = 
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			        <button type="submit" value="Submit" class="btn btn-primary">Delete</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>    	
+    </form>
+</body>
+</html>

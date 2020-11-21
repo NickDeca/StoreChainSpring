@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h1>Form</h1>
-    <form action="#" th:action="@{/Customers/Create}" th:object="${Customers}" method="post">    
+    <form action="#" th:action="@{/Customers/Update}" th:object="${Customers}" method="post">    
     	<p>Id of customer to be updated: <input type="number" th:field="*{Id}" /></p>
     	<p>Capital: <input type="number" th:field="*{Capital}" /></p>
         <p>Description: <input type="text" th:field="*{Description}" /></p>        
