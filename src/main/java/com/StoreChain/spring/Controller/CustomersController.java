@@ -74,13 +74,13 @@ public class CustomersController {
 		
 		customerContext.save(update);
 		
-		return "CustomersViews/UpdatedCustomer";
+		return "CustomersViews/UpdatedCustomers";
 	}
 	
 	@GetMapping("/Delete")
 	public String DeleteCustomerGet(Model model) {
-	    model.addAttribute("Customer", new Customers());
-		return "CustomersViews/DeleteCustomer";
+	    model.addAttribute("Customers", new Customers());
+		return "CustomersViews/DeleteCustomers";
 	}
 	
 	@PostMapping("/Delete")
@@ -94,6 +94,6 @@ public class CustomersController {
 		
 		customerContext.delete(customer);
 		
-		return "CustomersViews/DeletedCustomer";
+		return "CustomersViews/DeletedCustomers";
 	}
 }
