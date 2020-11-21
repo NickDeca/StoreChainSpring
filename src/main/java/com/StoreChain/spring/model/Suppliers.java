@@ -16,6 +16,7 @@ public class Suppliers {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Id;
 
+	@Column(name = "Payment_Due")
     public Double PaymentDue;
     
 	public Integer Category;

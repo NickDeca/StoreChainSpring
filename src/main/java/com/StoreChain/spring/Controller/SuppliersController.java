@@ -37,7 +37,7 @@ public class SuppliersController {
 	@GetMapping("/Create")
 	public String CreateNewProductGet(Model model) {
 	    model.addAttribute("Suppliers", new Suppliers());
-		return "SuppliersViews/CreateProduct";
+		return "SuppliersViews/CreateSuppliers";
 	}
 	
 	@PostMapping("/Create")
@@ -49,7 +49,7 @@ public class SuppliersController {
 	
 	@GetMapping("/Update")
 	public String UpdateProductGet(Model model) {
-	    model.addAttribute("Products", new Suppliers());
+	    model.addAttribute("Suppliers", new Suppliers());
 		return "SuppliersViews/UpdateSuppliers";
 	}
 	
@@ -80,7 +80,7 @@ public class SuppliersController {
 	}
 	
 	@GetMapping("/Delete")
-	public @ResponseBody String DeleteSupplier(Model model) {
+	public String DeleteSupplierGet(Model model) {
 		model.addAttribute("Suppliers", new Suppliers());
 		return "SuppliersViews/DeleteSuppliers";
 	}
