@@ -1,5 +1,17 @@
-<tr th:each="message : ${Store}">
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Create Product</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<tr th:if="${Store == null}">
+            <td colspan="2"> No Transactions are available </td>
+        </tr>
+	<tr th:each="message : ${Store}">
             <td th:text="${message.id}">1</td>
             <td th:text="${message.PaymentDue}">Payment</td>
             <td th:text="${message.TransactionKey}">Last Transaction</td>
         </tr>
+</body>
+</html>
