@@ -1,9 +1,11 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
+<header th:replace="fragments/header">
+</header>
 <body>
     <p>Products All <a href="/Products/All">here</a></p>
     <p>Create Product <a href="/Products/Create">here</a></p>    

@@ -1,7 +1,3 @@
-<link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap.css" rel="stylesheet" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap.js"></script>
-
 <script type="text/javascript">  
 function getdeleter(){  
 var number = document.getElementById("deleter").value;  
@@ -15,6 +11,8 @@ document.getElementById("innertextmodal").innerHTML += number + " ?";
     <title>Delete Customer</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
+<header th:replace="fragments/header">
+</header>
 <body>
 	<h1>Form</h1>
     <form action="#" th:action="@{/Customers/Delete}" th:object="${Customers}" method="post">    

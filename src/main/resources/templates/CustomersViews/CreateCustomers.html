@@ -4,6 +4,8 @@
     <title>Create Customers</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
+<header th:replace="fragments/header">
+</header>
 <body>
 	<h1>Form</h1>
     <form action="#" th:action="@{/Customers/Create}" th:object="${Customers}" method="post">

@@ -37,20 +37,20 @@ public class CustomersController {
 	@GetMapping("/Create")
 	public String CreateNewCustomerGet(Model model) {
 	    model.addAttribute("Customers", new Customers());
-		return "CustomersViews/CreateCustomer";
+		return "CustomersViews/CreateCustomers";
 	}
 	
 	@PostMapping(path = "/Create")
 	public @ResponseBody String CreateNewCustomer(@ModelAttribute Customers customer, Model model){
 			
 		customerContext.save(customer);		
-		return "CustomersViews/CreatedCustomer"; 
+		return "CustomersViews/CreatedCustomers"; 
 	}
 	
 	@GetMapping("/Update")
 	public String UpdateCustomerGet(Model model) {
 	    model.addAttribute("Customers", new Customers());
-		return "CustomersViews/UpdateCustomer";
+		return "CustomersViews/UpdateCustomers";
 	}
 	
 	@PostMapping("/Update")
