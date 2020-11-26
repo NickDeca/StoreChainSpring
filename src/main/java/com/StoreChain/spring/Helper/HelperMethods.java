@@ -1,8 +1,7 @@
-package com.StoreChain.spring.Controller;
+package com.StoreChain.spring.Helper;
 
 import java.util.ArrayList;
 
-import com.StoreChain.spring.Helper.BuyActionClass;
 import com.StoreChain.spring.model.Customers;
 import com.StoreChain.spring.model.Products;
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.StoreChain.spring.Helper.BuyActionClass;
+import com.StoreChain.spring.Helper.HelperMethods;
 import com.StoreChain.spring.Repository.CustomersRepository;
 import com.StoreChain.spring.Repository.ProductRepository;
 import com.StoreChain.spring.model.Customers;
