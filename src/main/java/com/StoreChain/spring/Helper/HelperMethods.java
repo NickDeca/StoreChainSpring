@@ -6,9 +6,11 @@ import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.StoreChain.spring.Repository.SuppliersRepository;
 import com.StoreChain.spring.Repository.TransactionsRepository;
 import com.StoreChain.spring.model.Customers;
 import com.StoreChain.spring.model.Products;
+import com.StoreChain.spring.model.Suppliers;
 import com.StoreChain.spring.model.Transactions;
 
 
@@ -16,8 +18,10 @@ public class HelperMethods {
 
 	@Autowired
 	private TransactionsRepository tContext;
+	@Autowired
+	private static SuppliersRepository sContext;
 	
-	public static void Supply(int suppliersKey, Products productForSupply, int quantityToSupply) {
+	public static void Supply(int suppliersKey, Products productForSupply, int quantityToSupply) throws Exception {
 		java.sql.Date date = getCurrentDate();
 		TransactionManager tManager = new TransactionManager();
 		
@@ -45,18 +49,39 @@ public class HelperMethods {
 		}catch(Exception err) {
 			transaction.setErrorText(err.getMessage());
 			transaction.setState(StateEnum.ErrorState.ordinal());
-            tManager.AddTransaction(transaction);            
+            tManager.AddTransaction(transaction);      
+            
+            throw err;
 		}
 	}
 
-	private static void UpdateProductInStorage(Products productForSupply, int suppliersKey, int quantityToSupply) {
-		// TODO Auto-generated method stub
-		
+	private static void UpdateProductInStorage(Products productForSupply, int suppliersKey, int quantityToSupply) throws Exception {
+		try {
+			if (productForSupply.getSupplier_Key() != suppliersKey)
+				throw new Exception("The specified supplier does not contain the product");
+			
+			int end = productForSupply.getQuantityInStorage() + quantityToSupply;
+			
+			productForSupply.setQuantityInStorage(end);
+		}catch(Exception err) {
+			throw err;
+		}
 	}
 
-	private static void UpdateSuppliersDue(int suppliersKey, double boughtValue) {
-		// TODO Auto-generated method stub
-		
+	private static void UpdateSuppliersDue(int suppliersKey, double boughtValue) throws Exception {
+		try {
+			Suppliers supplier = sContext.findById(suppliersKey).get();
+			if (supplier == null)
+				throw new Exception("The specified supplier was not found");
+			
+			double end = supplier.getPaymentDue() + boughtValue;
+			
+			supplier.setPaymentDue(end);
+			
+			sContext.save(supplier);
+		}catch(Exception err) {
+			throw err;
+		}
 	}
 
 	public static ArrayList<Products> BringAllProductsDepartments() {
