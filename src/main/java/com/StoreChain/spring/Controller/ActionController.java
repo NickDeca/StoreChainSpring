@@ -1,6 +1,7 @@
 package com.StoreChain.spring.Controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -70,7 +71,7 @@ public class ActionController {
 	public @ResponseBody String DisplayPost(@ModelAttribute Products product, Model model){
 		
 		try {
-			ArrayList<Products> products = HelperMethods.BringAllProductsDepartments();  //TODO remove
+			List<Products> products = HelperMethods.BringAllProductsDepartments();  //TODO remove
 			Products productForDisplay = productContext.findById(product.getid()).get();
 			
 			HelperMethods.Display(productForDisplay ,product.getTransactionQuantity(), product.getDepartment());
@@ -90,7 +91,7 @@ public class ActionController {
 	public @ResponseBody String BuyPost(@ModelAttribute BuyActionClass actionClass, Model model){
 
 		try {
-			ArrayList<Products> products = HelperMethods.BringAllProductsDepartments(); //TODO refire Buy
+			List<Products> products = HelperMethods.BringAllProductsDepartments(); //TODO refire Buy
 			HelperMethods.CheckValidity(actionClass);
 			
 			Products productBought = productContext.findById(actionClass.getProductKey()).get();

@@ -3,6 +3,7 @@ package com.StoreChain.spring.Helper;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -94,9 +95,9 @@ public class HelperMethods {
 		}
 	}
 
-	public static ArrayList<Products> BringAllProductsDepartments() {
+	public static List<Products> BringAllProductsDepartments() {
 		
-		return new ArrayList<Products>(); //TODO 
+		return pContext.findAll(); //TODO 
 	}
 
 	public static void Display(Products product, Integer numToBeDisplayed, Integer department) throws Exception {		
@@ -137,12 +138,28 @@ public class HelperMethods {
 		}
 	}
 
-	public static void CheckValidity(BuyActionClass product) {
-		
+	public static void CheckValidity(BuyActionClass buyClass) throws Exception {
+        if (buyClass.getCustomerKey() == 0)
+            throw new Exception("Please select a customer");
+        if(buyClass.getProductKey() == 0)
+            throw new Exception("Please select a product");
+        if(buyClass.getQuantity() == 0)
+            throw new Exception("Please give an amount of product you want to buy");
 	}
 
-	public static void UpdateProductInDisplay(Products productBought) {
+	public static void UpdateProductInDisplay(Products productBought) throws Exception {
+		Department departmentConnection = dContext.findConnectionByProdId(productBought.getid());
 		
+        if(departmentConnection == null)
+            throw new Exception("Connection in department by product id was not found");
+        
+        int newNumber = departmentConnection.getNumber() - productBought.getTransactionQuantity();
+        departmentConnection.setNumber(newNumber);
+        dContext.save(departmentConnection);
+        
+        int newQuantity = productBought.getQuantityInDisplay() - productBought.getTransactionQuantity();
+        productBought.setQuantityInDisplay(newQuantity);
+        pContext.save(productBought);       
 	}
 
 	public static void Buy(Products productBought, Customers customer) {
