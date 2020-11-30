@@ -1,4 +1,4 @@
-package com.StoreChain.spring.Helper;
+package com.StoreChain.spring.Enum;
 
 public enum StateEnum {
     UndeterminedState,

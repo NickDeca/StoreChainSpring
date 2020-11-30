@@ -6,9 +6,15 @@ import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.StoreChain.spring.Enum.DepartmentProductState;
+import com.StoreChain.spring.Enum.StateEnum;
+import com.StoreChain.spring.Enum.StoreCalculationEnum;
+import com.StoreChain.spring.Repository.DepartmentRepository;
+import com.StoreChain.spring.Repository.ProductRepository;
 import com.StoreChain.spring.Repository.SuppliersRepository;
 import com.StoreChain.spring.Repository.TransactionsRepository;
 import com.StoreChain.spring.model.Customers;
+import com.StoreChain.spring.model.Department;
 import com.StoreChain.spring.model.Products;
 import com.StoreChain.spring.model.Suppliers;
 import com.StoreChain.spring.model.Transactions;
@@ -20,6 +26,10 @@ public class HelperMethods {
 	private TransactionsRepository tContext;
 	@Autowired
 	private static SuppliersRepository sContext;
+	@Autowired
+	private static ProductRepository pContext;
+	@Autowired
+	private static DepartmentRepository dContext;
 	
 	public static void Supply(int suppliersKey, Products productForSupply, int quantityToSupply) throws Exception {
 		java.sql.Date date = getCurrentDate();
@@ -86,11 +96,45 @@ public class HelperMethods {
 
 	public static ArrayList<Products> BringAllProductsDepartments() {
 		
-		return new ArrayList<Products>();
+		return new ArrayList<Products>(); //TODO 
 	}
 
-	public static void Display(Products productForDisplay, Integer transactionQuantity, Integer department) {
-		
+	public static void Display(Products product, Integer numToBeDisplayed, Integer department) throws Exception {		
+		try {
+			Products foundProduct = pContext.findById(product.getid()).get();
+			
+	        if (foundProduct == null)
+	            throw new Exception("No such Product in the database");
+			int newQuantity = product.getQuantityInDisplay() + numToBeDisplayed;
+			foundProduct.setQuantityInDisplay(newQuantity);	        
+	        
+			Department connection = dContext.findConnectionProdDepart(foundProduct.getid(), department);
+			
+			if(connection == null) {
+				
+				Department newConnection = new Department();
+				newConnection.setDepartmentKey(department);
+				newConnection.setDescription(foundProduct.getDescription());
+				newConnection.setNumber(numToBeDisplayed);
+				newConnection.setState(product.getQuantityInDisplay() == numToBeDisplayed ? DepartmentProductState.Filled.ordinal() : DepartmentProductState.NeedFilling.ordinal());
+				
+				dContext.save(newConnection);				
+			}else {
+				int newNumber = connection.getNumber() + numToBeDisplayed;
+				connection.setNumber(newNumber);
+				
+                if (connection.getNumber() == product.getMaxDisplay())
+                	connection.setState(DepartmentProductState.Filled.ordinal());
+                else if (connection.getNumber() > product.getMaxDisplay())
+                	connection.setState(DepartmentProductState.OverFilled.ordinal());
+                else
+                	connection.setState(DepartmentProductState.NeedFilling.ordinal());
+				dContext.save(connection);	
+			}
+			
+		}catch(Exception err) {
+			throw err;
+		}
 	}
 
 	public static void CheckValidity(BuyActionClass product) {

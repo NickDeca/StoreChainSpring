@@ -4,6 +4,8 @@ import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.StoreChain.spring.Enum.StateEnum;
+import com.StoreChain.spring.Enum.StoreCalculationEnum;
 import com.StoreChain.spring.Repository.StoreRepository;
 import com.StoreChain.spring.Repository.TransactionsRepository;
 import com.StoreChain.spring.model.Store;

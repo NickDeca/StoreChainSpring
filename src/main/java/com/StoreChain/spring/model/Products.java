@@ -44,6 +44,8 @@ public class Products {
 	@Column(name="TransactionQuantity")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer TransactionQuantity;
+	
+	private Integer MaxDisplay;
 
 	@Column(name="DepartmentForeignId")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -144,6 +146,14 @@ public class Products {
 
 	public void setDescription(String description) {
 		Description = description;
+	}
+
+	public Integer getMaxDisplay() {
+		return MaxDisplay;
+	}
+
+	public void setMaxDisplay(Integer maxDisplay) {
+		MaxDisplay = maxDisplay;
 	}
 	
 }
