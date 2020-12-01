@@ -6,17 +6,21 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.StoreChain.spring.Enum.DepartmentProductState;
 import com.StoreChain.spring.Enum.StateEnum;
 import com.StoreChain.spring.Enum.StoreCalculationEnum;
+import com.StoreChain.spring.Repository.CustomersRepository;
 import com.StoreChain.spring.Repository.DepartmentRepository;
 import com.StoreChain.spring.Repository.ProductRepository;
+import com.StoreChain.spring.Repository.StoreRepository;
 import com.StoreChain.spring.Repository.SuppliersRepository;
 import com.StoreChain.spring.Repository.TransactionsRepository;
 import com.StoreChain.spring.model.Customers;
 import com.StoreChain.spring.model.Department;
 import com.StoreChain.spring.model.Products;
+import com.StoreChain.spring.model.Store;
 import com.StoreChain.spring.model.Suppliers;
 import com.StoreChain.spring.model.Transactions;
 
@@ -31,6 +35,10 @@ public class HelperMethods {
 	private static ProductRepository pContext;
 	@Autowired
 	private static DepartmentRepository dContext;
+	@Autowired
+	private static CustomersRepository cContext;
+	@Autowired
+	private static StoreRepository storeContext;
 	
 	public static void Supply(int suppliersKey, Products productForSupply, int quantityToSupply) throws Exception {
 		java.sql.Date date = getCurrentDate();
@@ -163,9 +171,70 @@ public class HelperMethods {
 	}
 
 	public static void Buy(Products productBought, Customers customer) {
-		
+
+		try {
+			double summedValue = productBought.getCostSold() * productBought.getTransactionQuantity();
+			
+	        if (summedValue == 0)
+	            throw new Exception("No Products bought");
+        
+	        
+            if (customer.getCapital() - summedValue <= 0)
+                throw new Exception("Customer Does not have the capital required to the transaction");
+            
+            
+            
+		}catch(Exception err) {
+			
+		}
 	}
 	
+	@Transactional
+	public static void BuyTransaction(Products product, Customers buyer, double summedValue) throws Exception {
+        TransactionManager tManager = new TransactionManager();
+        Date transactionTime = getCurrentDate();
+		double newCapital = buyer.getCapital() - summedValue;		
+		buyer.setCapital(newCapital);
+		
+		Transactions newTransaction = new Transactions();
+        newTransaction.setRecipientKey(buyer.getId());
+        newTransaction.setProductKey(product.getid());
+        newTransaction.setDateOfTransaction(transactionTime);
+        newTransaction.setCapital(summedValue);
+        newTransaction.setErrorText("");
+        
+        try {
+        	cContext.save(buyer);
+        	
+        	UpdateProductInDisplay(product);
+        	
+        	newTransaction.setProductQuantity(product.getTransactionQuantity());
+        	newTransaction.setErrorText("OK!");
+        	newTransaction.setState(StateEnum.OkState.ordinal());
+        	
+            tManager.AddTransaction(newTransaction);
+        } catch(Exception err) {
+        	newTransaction.setErrorText(err.getMessage());
+        	newTransaction.setState(StateEnum.ErrorState.ordinal());
+        	
+            tManager.AddTransaction(newTransaction);
+        	throw err;
+        }
+        
+        CheckIfNeedReSupply(product);
+        
+        Store newStoreState = new Store();
+        storeContext.save(newStoreState);
+	}
+	
+	private static void CheckIfNeedReSupply(Products product) throws Exception {
+		List<ResupplyHelperClass> list = pContext.CheckIfNeedReSupply(product);		
+		for(ResupplyHelperClass x : list){
+			Supply(x.getProduct().getSupplier_Key(), x.getProduct(), x.getQuantityToSupply());
+		}
+		
+	}
+
 	public static Date getCurrentDate() {
 		Calendar calendar = Calendar.getInstance();
 
