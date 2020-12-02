@@ -8,9 +8,9 @@ import com.StoreChain.spring.model.Department;
 
 public interface DepartmentRepository extends JpaRepository<Department, Integer> {
 
-	@Query(value = "SELECT TOP 1 * FROM Department WHERE Id = ?1 AND [Prod_Id] = ?2")
+	@Query(value = "SELECT TOP 1 * FROM Department WHERE Id = ?1 AND Prod_Id = ?2", 			  nativeQuery = true)
 	Department findConnectionProdDepart(int id, int prodId);
 
-	@Query(value = "SELECT TOP 1 * FROM Department WHERE [Prod_Id] = ?1")
+	@Query(value = "SELECT TOP 1 * FROM Department WHERE Prod_Id = ?1", 			  nativeQuery = true)
 	Department findConnectionByProdId(int id);
 }

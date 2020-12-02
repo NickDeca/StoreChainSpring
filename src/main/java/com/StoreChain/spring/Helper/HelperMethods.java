@@ -105,7 +105,7 @@ public class HelperMethods {
 
 	public static List<Products> BringAllProductsDepartments() {
 		
-		return pContext.findAll(); //TODO 
+		return pContext.findAll();
 	}
 
 	public static void Display(Products product, Integer numToBeDisplayed, Integer department) throws Exception {		
@@ -180,9 +180,8 @@ public class HelperMethods {
         
 	        
             if (customer.getCapital() - summedValue <= 0)
-                throw new Exception("Customer Does not have the capital required to the transaction");
-            
-            
+                throw new Exception("Customer Does not have the capital required to the transaction");           
+            BuyTransaction(productBought, customer, summedValue);
             
 		}catch(Exception err) {
 			
@@ -228,9 +227,10 @@ public class HelperMethods {
 	}
 	
 	private static void CheckIfNeedReSupply(Products product) throws Exception {
-		List<ResupplyHelperClass> list = pContext.CheckIfNeedReSupply(product);		
+		List<ResupplyHelperClass> list = pContext.CheckIfNeedReSupply(product.getid(), product.getQuantityInStorage());		
 		for(ResupplyHelperClass x : list){
-			Supply(x.getProduct().getSupplier_Key(), x.getProduct(), x.getQuantityToSupply());
+			Products pSupplier = pContext.findById(x.getProduct()).get();
+			Supply(pSupplier.getSupplier_Key(), pSupplier, x.getQuantityToSupply() - product.getQuantityInStorage());
 		}
 		
 	}

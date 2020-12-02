@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<script type='text/java script'>
+function redirection(){
+
+}
+</script>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<header th:replace="fragments/header">
+</header>
+<body>
+<tr th:if="${Products == null}">
+            <td colspan="2"> No Transactions are available </td>
+   </tr>
+   <table th:object="${Products}" id="Products" border="1">
+	   <thead>
+	        <tr>
+	            <th th:text="Id"> Id </th>
+	            <th th:text="Cost">Cost of Product </th>
+	            <th th:text="Description"> Description </th>
+	            <th th:text="Quantity">  Quantity for Sell </th>
+	            <th th:text="Category"> Category </th>
+	        </tr>
+	    </thead>
+	    <tbody>
+			<tr th:each="message : ${Products}">
+				<td th:text="${message.getid()}"></td>
+				<td th:text="${message.getCostSold()}"> Cost of Product </td>
+				<td th:text="${message.getDescription()}"> Description</td>
+				<td th:text="${message.getQuantityInDisplay()}"> Quantity for Sell </td>
+				<td th:text="${message.getCategory()}"> Category </td>
+		    </tr>
+	    </tbody>
+    </table>
+</body>
+</html>
+

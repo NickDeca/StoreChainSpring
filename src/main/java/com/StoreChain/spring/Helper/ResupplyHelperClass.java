@@ -1,29 +1,34 @@
 package com.StoreChain.spring.Helper;
 
+import javax.persistence.Column;
+
 import org.springframework.stereotype.Component;
 
 import com.StoreChain.spring.model.Products;
 
 @Component
 public class ResupplyHelperClass {
-
-	private Products product;
-	private int quantityToSupply;
+	@Column(nullable = true)
+	private Integer productId;
+	@Column(nullable = true)
+	private Integer quantityToSupply;
 	
-	public ResupplyHelperClass(Products Product, int quantityToSupply) {
-		this.product = Product;
+	//public ResupplyHelperClass(int asd) {} //TODO fix !!!!!!!!!
+	
+	public ResupplyHelperClass(Integer ProductId, Integer quantityToSupply) {
+		this.productId = ProductId;
 		this.quantityToSupply = quantityToSupply;
 	}
 
-	public Products getProduct() {
-		return product;
+	public Integer getProduct() {
+		return productId;
 	}
 
-	public void setProduct(Products product) {
-		this.product = product;
+	public void setProduct(int productId) {
+		this.productId = productId;
 	}
 
-	public int getQuantityToSupply() {
+	public Integer getQuantityToSupply() {
 		return quantityToSupply;
 	}
 
