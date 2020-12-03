@@ -15,7 +15,8 @@ public class Products {
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	
+
+	@Column(name="Supplier_Key")
 	private Integer Supplier_Key;
 	
 	private Integer Category;
@@ -55,7 +56,7 @@ public class Products {
 		return id;
 	}
 
-	public void setid(int Id) {
+	public void setid(Integer Id) {
 		id = Id;
 	}
 	
@@ -64,7 +65,7 @@ public class Products {
 		return Supplier_Key;
 	}
 
-	public void setSupplier_Key(int supplier_Key) {
+	public void setSupplier_Key(Integer supplier_Key) {
 		Supplier_Key = supplier_Key;
 	}
 
@@ -72,7 +73,7 @@ public class Products {
 		return Category;
 	}
 
-	public void setCategory(int category) {
+	public void setCategory(Integer category) {
 		Category = category;
 	}
 
@@ -80,7 +81,7 @@ public class Products {
 		return Department;
 	}
 
-	public void setDepartment(int department) {
+	public void setDepartment(Integer department) {
 		Department = department;
 	}
 
@@ -96,7 +97,7 @@ public class Products {
 		return CostSold;
 	}
 
-	public void setCostSold(double costSold) {
+	public void setCostSold(Double costSold) {
 		CostSold = costSold;
 	}
 
@@ -104,7 +105,7 @@ public class Products {
 		return CostBought;
 	}
 
-	public void setCostBought(double costBought) {
+	public void setCostBought(Double costBought) {
 		CostBought = costBought;
 	}
 
@@ -112,7 +113,7 @@ public class Products {
 		return QuantityInStorage;
 	}
 
-	public void setQuantityInStorage(int quantityInStorage) {
+	public void setQuantityInStorage(Integer quantityInStorage) {
 		QuantityInStorage = quantityInStorage;
 	}
 
@@ -120,7 +121,7 @@ public class Products {
 		return QuantityInDisplay;
 	}
 
-	public void setQuantityInDisplay(int quantityInDisplay) {
+	public void setQuantityInDisplay(Integer quantityInDisplay) {
 		QuantityInDisplay = quantityInDisplay;
 	}
 
@@ -128,7 +129,7 @@ public class Products {
 		return TransactionQuantity;
 	}
 
-	public void setTransactionQuantity(int transactionQuantity) {
+	public void setTransactionQuantity(Integer transactionQuantity) {
 		TransactionQuantity = transactionQuantity;
 	}
 
@@ -136,7 +137,7 @@ public class Products {
 		return DepartmentForeignId;
 	}
 
-	public void setDepartmentForeignId(int departmentForeignId) {
+	public void setDepartmentForeignId(Integer departmentForeignId) {
 		DepartmentForeignId = departmentForeignId;
 	}
 

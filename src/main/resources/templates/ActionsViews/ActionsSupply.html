@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<header th:replace="fragments/header">
+</header>
+<body>
+	<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
+	<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error != null}"></div>
+	<form action="#" th:action="@{/Actions/Supply}" th:object="${Product}" method="post">
+    	<p>Supplier: <input type="number" th:field="*{Supplier_Key}" /></p>
+    	<p>Product Id: <input type="number" th:field="*{Id}" /></p>
+    	<p>Quantity To Store: <input type="number" th:field="*{TransactionQuantity}" /></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+</body>
+</html>

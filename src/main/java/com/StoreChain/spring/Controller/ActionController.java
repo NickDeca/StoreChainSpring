@@ -38,13 +38,20 @@ public class ActionController {
 	
 	@GetMapping("/Supply")
 	public String SupplyGet(Model model) {
-	    model.addAttribute("Products", productContext.findAll());
-		return "ActionsViews/ActionsSupply";
+		try {
+		    model.addAttribute("Products", productContext.findAll());
+		    model.addAttribute("Product", new Products());
+			return "ActionsViews/ActionsSupply";
+		}catch(Exception err) {
+		    model.addAttribute("error", err);
+			return "ActionsViews/ActionsSupply";
+		}
 	}
 	
 	@PostMapping(path = "/Supply")
 	public @ResponseBody String SupplyPost(@ModelAttribute Products product, Model model){
 		try {
+			
 			Products productforSupply = productContext.findById(product.getid()).get();
 			
 			if(productforSupply == null) 
@@ -55,6 +62,8 @@ public class ActionController {
 			
 		}catch(Exception err) {
 			//TODO modelState for errors in html
+		    model.addAttribute("error", err);
+			return "ActionsViews/ActionsSupply"; 
 		}
 		
 		return "ActionsViews/ActionsSupply"; 
@@ -62,8 +71,13 @@ public class ActionController {
 	
 	@GetMapping("/Display")
 	public String DisplayGet(Model model) {
-	    model.addAttribute("Products", productContext.findAll());
-		return "ActionsViews/ActionsDisplay";
+		try {
+		    model.addAttribute("Products", productContext.findAll());
+			return "ActionsViews/ActionsDisplay";
+		}catch(Exception err) {
+		    model.addAttribute("error", err);
+			return "ActionsViews/ActionsDisplay";
+		}
 	}
 	
 
@@ -76,16 +90,22 @@ public class ActionController {
 			
 			HelperMethods.Display(productForDisplay ,product.getTransactionQuantity(), product.getDepartment());
 		}catch(Exception err) {
-			//TODO alert view
+		    model.addAttribute("error", err);
+			return "ActionsViews/ActionsDisplay";
 		}
 		return "ActionsViews/ActionsDisplay"; //TODO refire DisplayGet
 	}	
 		
 	@GetMapping("/Buy")
 	public String BuyGet(Model model) {
-	    model.addAttribute("Products", productContext.findAll());
-	    model.addAttribute("actionClass", new BuyActionClass());
-		return "ActionsViews/ActionsBuy";
+		try {
+		    model.addAttribute("Products", productContext.findAll());
+		    model.addAttribute("actionClass", new BuyActionClass());
+			return "ActionsViews/ActionsBuy";
+		}catch(Exception err) {
+		    model.addAttribute("error", err);
+			return "ActionsViews/ActionsBuy";
+		}
 	}
 	
 	@PostMapping(path = "/Buy")
@@ -111,10 +131,11 @@ public class ActionController {
                 throw new Exception("Customer not found retry!");
             HelperMethods.UpdateProductInDisplay(productBought);
             HelperMethods.Buy(productBought, customer);
+            return "ActionsViews/ActionsBuy";		
             
 		}catch(Exception err) {
-			//TODO alert view
+		    model.addAttribute("Exception", err);
+			return "ActionsViews/ActionsBuy";		
 		}
-		return "ActionsViews/ActionsBuy";		
 	}
 }
