@@ -84,6 +84,7 @@ public class ActionController {
 	@GetMapping("/Buy")
 	public String BuyGet(Model model) {
 	    model.addAttribute("Products", productContext.findAll());
+	    model.addAttribute("actionClass", new BuyActionClass());
 		return "ActionsViews/ActionsBuy";
 	}
 	

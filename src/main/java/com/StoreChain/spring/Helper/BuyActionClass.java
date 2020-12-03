@@ -1,5 +1,8 @@
 package com.StoreChain.spring.Helper;
 
+import javax.persistence.Entity;
+
+@Entity
 public class BuyActionClass {
 
 	private int ProductKey;
