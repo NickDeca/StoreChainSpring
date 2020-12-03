@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<header th:replace="fragments/header">
+</header>
+<body>
+	<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
+	<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error != null}"></div>
+	<tr th:if="${Products == null}">
+            <td colspan="2"> No Products are available </td>
+   </tr>
+   <table th:object="${Products}" id="Products" border="1">
+	   <thead>
+	        <tr>
+	            <th th:text="Id"> Id </th>
+	            <th th:text="Cost">Cost Sold </th>
+	            <th th:text="Description"> Description </th>
+	            <th th:text="Quantity">  Display Quantity </th>
+	            <th th:text="Category"> Category </th>
+	            <th th:text="Quantity"> Quantity </th>
+	        </tr>
+	    </thead>
+	    <tbody>
+			<tr th:each="message : ${Products}">
+				<td th:text="${message.getid()}"></td>
+				<td th:text="${message.getCostSold()}"> Cost of Product </td>
+				<td th:text="${message.getDescription()}"> Description</td>
+				<td th:text="${message.getQuantityInDisplay()}"> Quantity for Sell </td>
+				<td th:text="${message.getCategory()}"> Category </td>
+		    </tr>
+	    </tbody>
+    </table></br>
+    <p><b>Product to add to displayed quantity</b></p>
+    <form action="#" th:action="@{/Actions/Display}" th:object="${Product}" method="post">
+    	<p>Product: <input type="number" th:field="*{Id}" /></p>
+    	<p>Quantity: <input type="number" th:field="*{TransactionQuantity}" /></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form></br>
+    <p><b>New product to be displayed</b></p>
+    <form action="#" th:action="@{/Actions/Display}" th:object="${Product}" method="post">
+    	<p>Product Id: <input type="number" th:field="*{Id}" /></p>
+    	<p>Quantity: <input type="number" th:field="*{TransactionQuantity}" /></p>
+    	<p>Department: <input type="number" th:field="*{Department}" /></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+</body>
+</html>
+

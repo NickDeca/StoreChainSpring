@@ -61,7 +61,6 @@ public class ActionController {
 			
 			
 		}catch(Exception err) {
-			//TODO modelState for errors in html
 		    model.addAttribute("error", err);
 			return "ActionsViews/ActionsSupply"; 
 		}
@@ -73,6 +72,7 @@ public class ActionController {
 	public String DisplayGet(Model model) {
 		try {
 		    model.addAttribute("Products", productContext.findAll());
+		    model.addAttribute("Product", new Products());
 			return "ActionsViews/ActionsDisplay";
 		}catch(Exception err) {
 		    model.addAttribute("error", err);
@@ -89,11 +89,11 @@ public class ActionController {
 			Products productForDisplay = productContext.findById(product.getid()).get();
 			
 			HelperMethods.Display(productForDisplay ,product.getTransactionQuantity(), product.getDepartment());
+			return "ActionsViews/ActionsDisplay";
 		}catch(Exception err) {
 		    model.addAttribute("error", err);
 			return "ActionsViews/ActionsDisplay";
-		}
-		return "ActionsViews/ActionsDisplay"; //TODO refire DisplayGet
+		} 
 	}	
 		
 	@GetMapping("/Buy")
