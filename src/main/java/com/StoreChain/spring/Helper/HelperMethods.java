@@ -44,6 +44,14 @@ public class HelperMethods {
 		java.sql.Date date = getCurrentDate();
 		TransactionManager tManager = new TransactionManager();
 		
+
+		Department departConn = dContext.findConnectionByProdId(productForSupply.getid());
+		
+		if(departConn == null)
+		 throw new Exception("No Department Connection"); 
+		if(departConn.getState() == DepartmentProductState.Filled.ordinal() || departConn.getState() == DepartmentProductState.OverFilled.ordinal())
+			throw new Exception("Cannot take more products");
+		
 		Transactions transaction = new Transactions();
 		transaction.setRecipientKey(suppliersKey);
 		transaction.setProviderKey(0);
@@ -55,7 +63,8 @@ public class HelperMethods {
 			double boughtValue = productForSupply.getCostBought() * quantityToSupply;
 			
             UpdateSuppliersDue(suppliersKey, boughtValue);
-            UpdateProductInStorage(productForSupply, suppliersKey, quantityToSupply);
+            UpdateProductInStorage(productForSupply, suppliersKey, quantityToSupply, departConn);
+            
             
             transaction.setCapital(boughtValue);
             transaction.setState(StateEnum.OkState.ordinal());
@@ -74,12 +83,16 @@ public class HelperMethods {
 		}
 	}
 
-	private static void UpdateProductInStorage(Products productForSupply, int suppliersKey, int quantityToSupply) throws Exception {
+	private static void UpdateProductInStorage(Products productForSupply, int suppliersKey, int quantityToSupply, Department departConn) throws Exception {
 		try {
 			if (productForSupply.getSupplier_Key() != suppliersKey)
 				throw new Exception("The specified supplier does not contain the product");
-			
+									
 			int end = productForSupply.getQuantityInStorage() + quantityToSupply;
+
+			departConn.setState(DepartmentProductState.Filled.ordinal());
+			
+			dContext.save(departConn);
 			
 			productForSupply.setQuantityInStorage(end);
 		}catch(Exception err) {
@@ -121,11 +134,11 @@ public class HelperMethods {
 			
 			if(connection == null) {
 				
-				Department newConnection = new Department();
-				newConnection.setDepartmentKey(department);
-				newConnection.setDescription(foundProduct.getDescription());
-				newConnection.setNumber(numToBeDisplayed);
-				newConnection.setState(product.getQuantityInDisplay() == numToBeDisplayed ? DepartmentProductState.Filled.ordinal() : DepartmentProductState.NeedFilling.ordinal());
+				Department newConnection = new Department( foundProduct.getDescription(),
+						department,	
+						numToBeDisplayed, 
+						product.getQuantityInDisplay() == numToBeDisplayed ? DepartmentProductState.Filled.ordinal() : DepartmentProductState.NeedFilling.ordinal(),
+						product.getid());
 				
 				dContext.save(newConnection);				
 			}else {
@@ -155,7 +168,7 @@ public class HelperMethods {
             throw new Exception("Please give an amount of product you want to buy");
 	}
 
-	public static void UpdateProductInDisplay(Products productBought) throws Exception {
+	public static void UpdateProductInDisplay(Products productBought, Department departConn) throws Exception {
 		Department departmentConnection = dContext.findConnectionByProdId(productBought.getid());
 		
         if(departmentConnection == null)
@@ -167,7 +180,10 @@ public class HelperMethods {
         
         int newQuantity = productBought.getQuantityInDisplay() - productBought.getTransactionQuantity();
         productBought.setQuantityInDisplay(newQuantity);
+        departConn.setNumber(newQuantity);
+        
         pContext.save(productBought);       
+        dContext.save(departConn);
 	}
 
 	public static void Buy(Products productBought, Customers customer) {
@@ -195,6 +211,8 @@ public class HelperMethods {
 		double newCapital = buyer.getCapital() - summedValue;		
 		buyer.setCapital(newCapital);
 		
+		Department departConn = dContext.findConnectionByProdId(product.getid());
+		
 		Transactions newTransaction = new Transactions();
         newTransaction.setRecipientKey(buyer.getId());
         newTransaction.setProductKey(product.getid());
@@ -205,7 +223,7 @@ public class HelperMethods {
         try {
         	cContext.save(buyer);
         	
-        	UpdateProductInDisplay(product);
+        	UpdateProductInDisplay(product, departConn);
         	
         	newTransaction.setProductQuantity(product.getTransactionQuantity());
         	newTransaction.setErrorText("OK!");

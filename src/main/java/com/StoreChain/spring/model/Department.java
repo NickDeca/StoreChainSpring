@@ -22,6 +22,14 @@ public class Department {
 	private int State;
 	private int Prod_Id;
 	
+	public Department( String description, int departmentKey, Integer number, int state, int prod_Id) {
+		super();
+		Description = description;
+		DepartmentKey = departmentKey;
+		Number = number;
+		State = state;
+		Prod_Id = prod_Id;
+	}
 	public int getId() {
 		return Id;
 	}
