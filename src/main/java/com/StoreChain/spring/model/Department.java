@@ -14,8 +14,10 @@ public class Department {
 	@Column(name = "Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Id;
+	@Column(nullable = true)
 	private String Description;
 	private int DepartmentKey;
+	@Column(nullable = true)
 	private Integer Number;
 	private int State;
 	private int Prod_Id;

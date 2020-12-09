@@ -19,7 +19,6 @@ public class ExitController {
 	@GetMapping("/exit")
 	public RedirectView greeting() {
 				initiateShutDown(1);
-				//TODO redirect to index
 				return new RedirectView("index"); 
 	}
 }

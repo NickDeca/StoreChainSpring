@@ -16,13 +16,16 @@ public class Suppliers {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Id;
 
-	@Column(name = "Payment_Due")
+	@Column(name = "Payment_Due",nullable = true)
     public Double PaymentDue;
-    
+
+	@Column(nullable = true)
 	public Integer Category;
-    
+
+	@Column(nullable = true)
     public String Description;
-    
+
+	@Column(nullable = true)
     public String Name; 
 
     public int getId() {

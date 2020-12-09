@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.StoreChain.spring.Repository.ProductMinQuantityRepository;
 import com.StoreChain.spring.Repository.ProductRepository;
+import com.StoreChain.spring.model.ProductMinQuantity;
 import com.StoreChain.spring.model.Products;
 
 
@@ -23,6 +25,8 @@ public class ProductsController {
 	
 	@Autowired 
 	private ProductRepository productContext;
+	@Autowired
+	private ProductMinQuantityRepository pmContext;
 	
 	@GetMapping("*")
 	public String Index() {
@@ -44,7 +48,9 @@ public class ProductsController {
 	@PostMapping(path = "/Create")
 	public String CreateNewProduct(@ModelAttribute Products product, Model model){
 			
-		productContext.save(product);		
+		productContext.save(product);
+		
+		pmContext.save(new ProductMinQuantity(product.getid(), product.getMaxDisplay(), product.getMinStorage()));
 		return "ProductsViews/Created"; 
 	}
 	
@@ -92,7 +98,12 @@ public class ProductsController {
 		if(product.getSupplier_Key() != null)
 			update.setSupplier_Key(product.getSupplier_Key());
 		
-		//TODO check which department is not needed
+		if(product.getMinStorage() != null)
+			update.setMinStorage(product.getMinStorage());
+		
+		if(product.getMaxDisplay() != null)
+			update.setMaxDisplay(product.getMaxDisplay());
+		
 		productContext.save(update);
 		
 		return "ProductsViews/Updated";

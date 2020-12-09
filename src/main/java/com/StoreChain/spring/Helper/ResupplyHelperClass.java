@@ -13,7 +13,7 @@ public class ResupplyHelperClass {
 	@Column(nullable = true)
 	private Integer quantityToSupply;
 	
-	//public ResupplyHelperClass(int asd) {} //TODO fix !!!!!!!!!
+	//public ResupplyHelperClass(int asd) {} //TODO fix dont see what to fix
 	
 	public ResupplyHelperClass(Integer ProductId, Integer quantityToSupply) {
 		this.productId = ProductId;

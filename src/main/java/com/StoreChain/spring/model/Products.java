@@ -16,39 +16,47 @@ public class Products {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name="Supplier_Key")
+	@Column(name="Supplier_Key",nullable = true)
 	private Integer Supplier_Key;
-	
+
+	@Column(nullable = true)
 	private Integer Category;
-	
+
+	@Column(nullable = true)
 	private Integer Department;
-	
+
+	@Column(nullable = true)
 	private String Description;
-	
+
+	@Column(nullable = true)
 	private Boolean isDisplay;
 	
-	@Column(name="CostSold")
+	@Column(name="CostSold",nullable = true)
 	private Double CostSold;
 
-	@Column(name="CostBought")   
+	@Column(name="CostBought",nullable = true)   
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Double CostBought;
 
-	@Column(name="QuantityInStorage")
+	@Column(name="QuantityInStorage",nullable = true)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer QuantityInStorage;
 
-	@Column(name="QuantityInDisplay")
+	@Column(name="QuantityInDisplay",nullable = true)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer QuantityInDisplay;
 
-	@Column(name="TransactionQuantity")
+	@Column(name="TransactionQuantity",nullable = true)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer TransactionQuantity;
-	
-	private Integer MaxDisplay;
 
-	@Column(name="DepartmentForeignId")
+	@Column(nullable = true)
+	private Integer MaxDisplay;
+	
+	@Column(nullable = true)
+	private Integer MinStorage;
+
+	@Column(name="DepartmentForeignId",nullable = true)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer DepartmentForeignId;
 
@@ -155,6 +163,14 @@ public class Products {
 
 	public void setMaxDisplay(Integer maxDisplay) {
 		MaxDisplay = maxDisplay;
+	}
+
+	public Integer getMinStorage() {
+		return MinStorage;
+	}
+
+	public void setMinStorage(Integer minStorage) {
+		MinStorage = minStorage;
 	}
 	
 }

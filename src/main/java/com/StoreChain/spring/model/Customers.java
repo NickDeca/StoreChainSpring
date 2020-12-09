@@ -15,15 +15,17 @@ public class Customers {
 	@Column(name = "Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Id;
-	
+
+	@Column(nullable = true)
     private Double Capital;
-    
+
+	@Column(nullable = true)
     private String Description;
     
-    @Column(name = "First_Name")
+    @Column(name = "First_Name", nullable = true)
     private String FirstName ;
     
-    @Column(name = "Last_Name")
+    @Column(name = "Last_Name", nullable = true)
     private String LastName;
 
 	public int getId() {

@@ -85,7 +85,6 @@ public class ActionController {
 	public @ResponseBody String DisplayPost(@ModelAttribute Products product, Model model){
 		
 		try {
-			List<Products> products = HelperMethods.BringAllProductsDepartments();  //TODO remove
 			Products productForDisplay = productContext.findById(product.getid()).get();
 			
 			HelperMethods.Display(productForDisplay ,product.getTransactionQuantity(), product.getDepartment());
@@ -112,7 +111,7 @@ public class ActionController {
 	public @ResponseBody String BuyPost(@ModelAttribute BuyActionClass actionClass, Model model){
 
 		try {
-			List<Products> products = HelperMethods.BringAllProductsDepartments(); //TODO refire Buy
+			List<Products> products = HelperMethods.BringAllProductsDepartments();
 			HelperMethods.CheckValidity(actionClass);
 			
 			Products productBought = productContext.findById(actionClass.getProductKey()).get();

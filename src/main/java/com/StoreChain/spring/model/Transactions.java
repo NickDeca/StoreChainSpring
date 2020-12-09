@@ -21,17 +21,23 @@ public class Transactions {
     public int RecipientKey ;
     
     public int ProviderKey ;
-    
+
+	@Column(nullable = true)
     public Double Capital ;
-    
+
+	@Column(nullable = true)
     public Integer ProductKey ;
-    
+
+	@Column(nullable = true)
 	public Date DateOfTransaction ;
-	
+
+	@Column(nullable = true)
     public Integer ProductQuantity ;
-    
+
+	@Column(nullable = true)
     public Integer State ;
-    
+
+	@Column(nullable = true)
     public String ErrorText ;
     
     public int getId() {

@@ -17,8 +17,10 @@ public class Store {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Id;
 
+	@Column(nullable = true)
     public Double Capital;
-    
+
+	@Column(nullable = true)
     public Integer TransactionKey;
 
 	public int getId() {

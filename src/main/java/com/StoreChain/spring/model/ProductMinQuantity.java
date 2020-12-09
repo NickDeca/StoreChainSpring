@@ -18,9 +18,8 @@ public class ProductMinQuantity {
     public int MinDisplay ;
     public int MinStorage ;
 
-	public ProductMinQuantity(int id, int productKey, int minDisplay, int minStorage) {
+	public ProductMinQuantity(int productKey, int minDisplay, int minStorage) {
 		super();
-		Id = id;
 		ProductKey = productKey;
 		MinDisplay = minDisplay;
 		MinStorage = minStorage;
