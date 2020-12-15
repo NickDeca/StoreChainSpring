@@ -39,8 +39,21 @@ public class Transactions {
 
 	@Column(nullable = true)
     public String ErrorText ;
+	
     
-    public int getId() {
+    public Transactions(int recipientKey, int providerKey, Double capital, Integer productKey,
+			Date dateOfTransaction, Integer productQuantity, Integer state, String errorText) {
+		super();
+		RecipientKey = recipientKey;
+		ProviderKey = providerKey;
+		Capital = capital;
+		ProductKey = productKey;
+		DateOfTransaction = dateOfTransaction;
+		ProductQuantity = productQuantity;
+		State = state;
+		ErrorText = errorText;
+	}
+	public int getId() {
 		return Id;
 	}
 	public void setId(int id) {

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.StoreChain.spring.Helper.BuyActionClass;
 import com.StoreChain.spring.Helper.HelperMethods;
 import com.StoreChain.spring.Repository.CustomersRepository;
+import com.StoreChain.spring.Repository.DepartmentRepository;
 import com.StoreChain.spring.Repository.ProductRepository;
 import com.StoreChain.spring.model.Customers;
+import com.StoreChain.spring.model.Department;
 import com.StoreChain.spring.model.Products;
 
 
@@ -29,6 +31,8 @@ public class ActionController {
 	
 	@Autowired
 	private CustomersRepository customerContext;
+	@Autowired
+	private DepartmentRepository dContext;
 
 	@GetMapping("*")
 	public String Index() {
@@ -125,10 +129,12 @@ public class ActionController {
             productBought.setTransactionQuantity(actionClass.getQuantity());
             
             Customers customer = customerContext.findById(actionClass.getCustomerKey()).get();
+
+    		Department departConn = dContext.findConnectionByProdId(actionClass.getProductKey());
             
             if (customer == null)
                 throw new Exception("Customer not found retry!");
-            HelperMethods.UpdateProductInDisplay(productBought);
+            HelperMethods.UpdateProductInDisplay(productBought, departConn);
             HelperMethods.Buy(productBought, customer);
             return "ActionsViews/ActionsBuy";		
             

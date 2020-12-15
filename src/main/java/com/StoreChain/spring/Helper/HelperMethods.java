@@ -44,26 +44,13 @@ public class HelperMethods {
 		java.sql.Date date = getCurrentDate();
 		TransactionManager tManager = new TransactionManager();
 		
-
-		Department departConn = dContext.findConnectionByProdId(productForSupply.getid());
-		
-		if(departConn == null)
-		 throw new Exception("No Department Connection"); 
-		if(departConn.getState() == DepartmentProductState.Filled.ordinal() || departConn.getState() == DepartmentProductState.OverFilled.ordinal())
-			throw new Exception("Cannot take more products");
-		
-		Transactions transaction = new Transactions();
-		transaction.setRecipientKey(suppliersKey);
-		transaction.setProviderKey(0);
-		transaction.setDateOfTransaction(date);
-		transaction.setErrorText("");
-		transaction.setState(StateEnum.UndeterminedState.ordinal());
+		Transactions transaction = new Transactions(suppliersKey, 0, new Double(0), productForSupply.getid(), date, 0, StateEnum.UndeterminedState.ordinal(), "");
 		
 		try {
 			double boughtValue = productForSupply.getCostBought() * quantityToSupply;
 			
             UpdateSuppliersDue(suppliersKey, boughtValue);
-            UpdateProductInStorage(productForSupply, suppliersKey, quantityToSupply, departConn);
+            UpdateProductInStorage(productForSupply, suppliersKey, quantityToSupply);
             
             
             transaction.setCapital(boughtValue);
@@ -83,16 +70,12 @@ public class HelperMethods {
 		}
 	}
 
-	private static void UpdateProductInStorage(Products productForSupply, int suppliersKey, int quantityToSupply, Department departConn) throws Exception {
+	private static void UpdateProductInStorage(Products productForSupply, int suppliersKey, int quantityToSupply) throws Exception {
 		try {
 			if (productForSupply.getSupplier_Key() != suppliersKey)
 				throw new Exception("The specified supplier does not contain the product");
 									
 			int end = productForSupply.getQuantityInStorage() + quantityToSupply;
-
-			departConn.setState(DepartmentProductState.Filled.ordinal());
-			
-			dContext.save(departConn);
 			
 			productForSupply.setQuantityInStorage(end);
 		}catch(Exception err) {
@@ -193,8 +176,7 @@ public class HelperMethods {
 			
 	        if (summedValue == 0)
 	            throw new Exception("No Products bought");
-        
-	        
+        	        
             if (customer.getCapital() - summedValue <= 0)
                 throw new Exception("Customer Does not have the capital required to the transaction");           
             BuyTransaction(productBought, customer, summedValue);
@@ -213,13 +195,7 @@ public class HelperMethods {
 		
 		Department departConn = dContext.findConnectionByProdId(product.getid());
 		
-		Transactions newTransaction = new Transactions();
-        newTransaction.setRecipientKey(buyer.getId());
-        newTransaction.setProductKey(product.getid());
-        newTransaction.setDateOfTransaction(transactionTime);
-        newTransaction.setCapital(summedValue);
-        newTransaction.setErrorText("");
-        
+		Transactions newTransaction = new Transactions(0,buyer.getId(),summedValue,product.getid(), transactionTime, 0, StateEnum.UndeterminedState.ordinal(), "");
         try {
         	cContext.save(buyer);
         	
