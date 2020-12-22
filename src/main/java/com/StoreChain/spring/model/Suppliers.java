@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Suppliers")
+@Table(name="Suppliers")
 public class Suppliers {
 
 	@Id
@@ -17,7 +17,7 @@ public class Suppliers {
 	private int Id;
 
 	@Column(name = "Payment_Due",nullable = true)
-    public Double PaymentDue;
+    public Double Payment_Due;
 
 	@Column(nullable = true)
 	public Integer Category;
@@ -36,12 +36,12 @@ public class Suppliers {
 		this.Id = id;
 	}
 
-	public Double getPaymentDue() {
-		return PaymentDue;
+	public Double getPayment_Due() {
+		return Payment_Due;
 	}
 
-	public void setPaymentDue(Double paymentDue) {
-		PaymentDue = paymentDue;
+	public void setPayment_Due(Double payment_Due) {
+		Payment_Due = payment_Due;
 	}
 
 	public Integer getCategory() {

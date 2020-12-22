@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.StoreChain.spring.Enum.DepartmentProductState;
@@ -24,23 +25,9 @@ import com.StoreChain.spring.model.Store;
 import com.StoreChain.spring.model.Suppliers;
 import com.StoreChain.spring.model.Transactions;
 
-
 public class HelperMethods {
 
-	@Autowired
-	private TransactionsRepository tContext;
-	@Autowired
-	private static SuppliersRepository sContext;
-	@Autowired
-	private static ProductRepository pContext;
-	@Autowired
-	private static DepartmentRepository dContext;
-	@Autowired
-	private static CustomersRepository cContext;
-	@Autowired
-	private static StoreRepository storeContext;
-	
-	public static void Supply(int suppliersKey, Products productForSupply, int quantityToSupply) throws Exception {
+	public void Supply(int suppliersKey, Products productForSupply, int quantityToSupply,ProductRepository productContext, SuppliersRepository SupplierContext) throws Exception {
 		java.sql.Date date = getCurrentDate();
 		TransactionManager tManager = new TransactionManager();
 		
@@ -49,7 +36,7 @@ public class HelperMethods {
 		try {
 			double boughtValue = productForSupply.getCostBought() * quantityToSupply;
 			
-            UpdateSuppliersDue(suppliersKey, boughtValue);
+            UpdateSuppliersDue(suppliersKey, boughtValue, productContext, SupplierContext);
             UpdateProductInStorage(productForSupply, suppliersKey, quantityToSupply);
             
             
@@ -70,7 +57,7 @@ public class HelperMethods {
 		}
 	}
 
-	private static void UpdateProductInStorage(Products productForSupply, int suppliersKey, int quantityToSupply) throws Exception {
+	private void UpdateProductInStorage(Products productForSupply, int suppliersKey, int quantityToSupply) throws Exception {
 		try {
 			if (productForSupply.getSupplier_Key() != suppliersKey)
 				throw new Exception("The specified supplier does not contain the product");
@@ -83,37 +70,39 @@ public class HelperMethods {
 		}
 	}
 
-	private static void UpdateSuppliersDue(int suppliersKey, double boughtValue) throws Exception {
+	private void UpdateSuppliersDue(int suppliersKey, double boughtValue,ProductRepository productContext, SuppliersRepository SupplierContext) throws Exception {
 		try {
-			Suppliers supplier = sContext.findById(suppliersKey).get();
+			List<Products> p = productContext.findAll();
+			List<Suppliers> s = SupplierContext.findAll();
+			Suppliers supplier = SupplierContext.findById(suppliersKey).get();
 			if (supplier == null)
 				throw new Exception("The specified supplier was not found");
 			
-			double end = supplier.getPaymentDue() + boughtValue;
+			double end = supplier.getPayment_Due() + boughtValue;
 			
-			supplier.setPaymentDue(end);
+			supplier.setPayment_Due(end);
 			
-			sContext.save(supplier);
+			SupplierContext.save(supplier);
 		}catch(Exception err) {
 			throw err;
 		}
 	}
 
-	public static List<Products> BringAllProductsDepartments() {
+	public List<Products> BringAllProductsDepartments(ProductRepository productContext) {
 		
-		return pContext.findAll();
+		return productContext.findAll();
 	}
 
-	public static void Display(int productKey, Integer numToBeDisplayed, Integer department) throws Exception {		
+	public void Display(int productKey, Integer numToBeDisplayed, Integer department, ProductRepository productContext, DepartmentRepository departmentContext) throws Exception {		
 		try {
-			Products foundProduct = pContext.findById(productKey).get();
+			Products foundProduct = productContext.findById(productKey).get();
 			
 	        if (foundProduct == null)
 	            throw new Exception("No such Product in the database");
 			int newQuantity = foundProduct.getQuantityInDisplay() + numToBeDisplayed;
 			foundProduct.setQuantityInDisplay(newQuantity);	        
 	        
-			Department connection = dContext.findConnectionProdDepart(foundProduct.getid(), department);
+			Department connection = departmentContext.findConnectionProdDepart(foundProduct.getid(), department);
 			
 			if(connection == null) {
 				
@@ -123,7 +112,7 @@ public class HelperMethods {
 						foundProduct.getQuantityInDisplay() == numToBeDisplayed ? DepartmentProductState.Filled.ordinal() : DepartmentProductState.NeedFilling.ordinal(),
 								foundProduct.getid());
 				
-				dContext.save(newConnection);				
+				departmentContext.save(newConnection);				
 			}else {
 				int newNumber = connection.getNumber() + numToBeDisplayed;
 				connection.setNumber(newNumber);
@@ -134,7 +123,7 @@ public class HelperMethods {
                 	connection.setState(DepartmentProductState.OverFilled.ordinal());
                 else
                 	connection.setState(DepartmentProductState.NeedFilling.ordinal());
-				dContext.save(connection);	
+                departmentContext.save(connection);	
 			}
 			
 		}catch(Exception err) {
@@ -142,7 +131,7 @@ public class HelperMethods {
 		}
 	}
 
-	public static void CheckValidity(BuyActionClass buyClass) throws Exception {
+	public void CheckValidity(BuyActionClass buyClass) throws Exception {
         if (buyClass.getCustomerKey() == 0)
             throw new Exception("Please select a customer");
         if(buyClass.getProductKey() == 0)
@@ -151,23 +140,24 @@ public class HelperMethods {
             throw new Exception("Please give an amount of product you want to buy");
 	}
 
-	public static void UpdateProductInDisplay(Products productBought) throws Exception {
-		Department departmentConnection = dContext.findConnectionByProdId(productBought.getid());
+	public void UpdateProductInDisplay(Products productBought, DepartmentRepository departmentContext, ProductRepository productContext) throws Exception {
+		Department departmentConnection = departmentContext.findConnectionByProdId(productBought.getid());
 		
         if(departmentConnection == null)
             throw new Exception("Connection in department by product id was not found");
         
         int newNumber = departmentConnection.getNumber() - productBought.getTransactionQuantity();
         departmentConnection.setNumber(newNumber);
-        dContext.save(departmentConnection);
+        departmentContext.save(departmentConnection);
         
         int newQuantity = productBought.getQuantityInDisplay() - productBought.getTransactionQuantity();
         productBought.setQuantityInDisplay(newQuantity);
         
-        pContext.save(productBought);      
+        productContext.save(productBought);      
 	}
 
-	public static void Buy(Products productBought, Customers customer) {
+	public void Buy(Products productBought, Customers customer, CustomersRepository customerContext, StoreRepository storeContext,DepartmentRepository departmentContext, 
+			ProductRepository productContext, SuppliersRepository SupplierContext) {
 
 		try {
 			double summedValue = productBought.getCostSold() * productBought.getTransactionQuantity();
@@ -177,7 +167,7 @@ public class HelperMethods {
         	        
             if (customer.getCapital() - summedValue <= 0)
                 throw new Exception("Customer Does not have the capital required to the transaction");           
-            BuyTransaction(productBought, customer, summedValue);
+            BuyTransaction(productBought, customer, summedValue, customerContext, storeContext, departmentContext, productContext, SupplierContext);
             
 		}catch(Exception err) {
 			
@@ -185,7 +175,8 @@ public class HelperMethods {
 	}
 	
 	@Transactional
-	public static void BuyTransaction(Products product, Customers buyer, double summedValue) throws Exception {
+	public void BuyTransaction(Products product, Customers buyer, double summedValue, CustomersRepository cContext, StoreRepository storeContext, DepartmentRepository departmentContext, 
+			ProductRepository productContext, SuppliersRepository SupplierContext) throws Exception {
         TransactionManager tManager = new TransactionManager();
         Date transactionTime = getCurrentDate();
 		double newCapital = buyer.getCapital() - summedValue;		
@@ -195,7 +186,7 @@ public class HelperMethods {
         try {
         	cContext.save(buyer);
         	
-        	UpdateProductInDisplay(product);
+        	UpdateProductInDisplay(product, departmentContext , productContext);
         	
         	newTransaction.setProductQuantity(product.getTransactionQuantity());
         	newTransaction.setErrorText("OK!");
@@ -210,17 +201,17 @@ public class HelperMethods {
         	throw err;
         }
         
-        CheckIfNeedReSupply(product);
+        CheckIfNeedReSupply(product, productContext, SupplierContext);
         
         Store newStoreState = new Store();
         storeContext.save(newStoreState);
 	}
 	
-	private static void CheckIfNeedReSupply(Products product) throws Exception {
-		List<ResupplyHelperClass> list = pContext.CheckIfNeedReSupply(product.getid(), product.getQuantityInStorage());		
+	private void CheckIfNeedReSupply(Products product, ProductRepository productContext, SuppliersRepository SupplierContext) throws Exception {
+		List<ResupplyHelperClass> list = productContext.CheckIfNeedReSupply(product.getid(), product.getQuantityInStorage());		
 		for(ResupplyHelperClass x : list){
-			Products pSupplier = pContext.findById(x.getProduct()).get();
-			Supply(pSupplier.getSupplier_Key(), pSupplier, x.getQuantityToSupply() - product.getQuantityInStorage());
+			Products pSupplier = productContext.findById(x.getProduct()).get();
+			Supply(pSupplier.getSupplier_Key(), pSupplier, x.getQuantityToSupply() - product.getQuantityInStorage(), productContext, SupplierContext);
 		}
 		
 	}

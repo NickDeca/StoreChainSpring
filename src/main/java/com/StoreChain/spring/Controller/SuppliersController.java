@@ -62,8 +62,8 @@ public class SuppliersController {
 		if(updateToBe.isPresent())
 			update = updateToBe.get();
 		
-		if(supplier.getPaymentDue() != null)
-			update.setPaymentDue(supplier.getPaymentDue());			
+		if(supplier.getPayment_Due() != null)
+			update.setPayment_Due(supplier.getPayment_Due());			
 		
 		if(supplier.getCategory() != null)
 			update.setCategory(supplier.getCategory());

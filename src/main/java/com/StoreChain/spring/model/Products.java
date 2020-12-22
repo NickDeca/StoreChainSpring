@@ -64,7 +64,7 @@ public class Products {
 		return id;
 	}
 
-	public void setid(Integer Id) {
+	public void setid(int Id) {
 		id = Id;
 	}
 	

@@ -10,7 +10,7 @@
 	<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error != null}"></div>
 	<form action="#" th:action="@{/Actions/Supply}" th:object="${Product}" method="post">
     	<p>Supplier: <input type="number" th:field="*{Supplier_Key}" /></p>
-    	<p>Product Id: <input type="number" th:field="*{Id}" /></p>
+    	<p>Product Id: <input type="number" th:field="*{id}" /></p>
     	<p>Quantity To Store: <input type="number" th:field="*{TransactionQuantity}" /></p>
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
     </form>

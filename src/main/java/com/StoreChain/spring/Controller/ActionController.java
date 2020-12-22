@@ -17,6 +17,9 @@ import com.StoreChain.spring.Helper.HelperMethods;
 import com.StoreChain.spring.Repository.CustomersRepository;
 import com.StoreChain.spring.Repository.DepartmentRepository;
 import com.StoreChain.spring.Repository.ProductRepository;
+import com.StoreChain.spring.Repository.StoreRepository;
+import com.StoreChain.spring.Repository.SuppliersRepository;
+import com.StoreChain.spring.Repository.TransactionsRepository;
 import com.StoreChain.spring.model.Customers;
 import com.StoreChain.spring.model.Department;
 import com.StoreChain.spring.model.Products;
@@ -32,7 +35,14 @@ public class ActionController {
 	@Autowired
 	private CustomersRepository customerContext;
 	@Autowired
-	private DepartmentRepository dContext;
+	private DepartmentRepository departmentContext;
+	
+	@Autowired
+	private TransactionsRepository transactionContext;
+	@Autowired 
+	private SuppliersRepository SupplierContext;
+	@Autowired
+	private StoreRepository storeContext;
 
 	@GetMapping("*")
 	public String Index() {
@@ -57,19 +67,19 @@ public class ActionController {
 		try {
 			
 			Products productforSupply = productContext.findById(product.getid()).get();
+			HelperMethods helperMethods = new HelperMethods();
 			
 			if(productforSupply == null) 
 				throw new Exception();
 				
-			HelperMethods.Supply(product.getSupplier_Key(), productforSupply, product.getTransactionQuantity());
+			helperMethods.Supply(product.getSupplier_Key(), productforSupply, product.getTransactionQuantity(), productContext, SupplierContext);
 			
+			return "ActionsViews/ActionsSupply"; 	
 			
 		}catch(Exception err) {
 		    model.addAttribute("error", err);
 			return "ActionsViews/ActionsSupply"; 
 		}
-		
-		return "ActionsViews/ActionsSupply"; 
 	}
 	
 	@GetMapping("/Display")
@@ -89,7 +99,8 @@ public class ActionController {
 	public @ResponseBody String DisplayPost(@ModelAttribute Products product, Model model){
 		
 		try {			
-			HelperMethods.Display(product.getid() ,product.getTransactionQuantity(), product.getDepartment());
+			HelperMethods helperMethods = new HelperMethods();
+			helperMethods.Display(product.getid() ,product.getTransactionQuantity(), product.getDepartment(), productContext, departmentContext);
 			return "ActionsViews/ActionsDisplay";
 		}catch(Exception err) {
 		    model.addAttribute("error", err);
@@ -113,7 +124,8 @@ public class ActionController {
 	public @ResponseBody String BuyPost(@ModelAttribute BuyActionClass actionClass, Model model){
 
 		try {
-			HelperMethods.CheckValidity(actionClass);
+			HelperMethods helperMethods = new HelperMethods();
+			helperMethods.CheckValidity(actionClass);
 			
 			Products productBought = productContext.findById(actionClass.getProductKey()).get();
 			
@@ -129,8 +141,8 @@ public class ActionController {
             
             if (customer == null)
                 throw new Exception("Customer not found retry!");
-            HelperMethods.UpdateProductInDisplay(productBought);
-            HelperMethods.Buy(productBought, customer);
+            helperMethods.UpdateProductInDisplay(productBought, departmentContext, productContext );
+            helperMethods.Buy(productBought, customer, customerContext, storeContext, departmentContext, productContext ,SupplierContext);
             return "ActionsViews/ActionsBuy";		
             
 		}catch(Exception err) {
