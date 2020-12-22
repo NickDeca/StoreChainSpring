@@ -151,7 +151,7 @@ public class HelperMethods {
             throw new Exception("Please give an amount of product you want to buy");
 	}
 
-	public static void UpdateProductInDisplay(Products productBought, Department departConn) throws Exception {
+	public static void UpdateProductInDisplay(Products productBought) throws Exception {
 		Department departmentConnection = dContext.findConnectionByProdId(productBought.getid());
 		
         if(departmentConnection == null)
@@ -163,10 +163,8 @@ public class HelperMethods {
         
         int newQuantity = productBought.getQuantityInDisplay() - productBought.getTransactionQuantity();
         productBought.setQuantityInDisplay(newQuantity);
-        departConn.setNumber(newQuantity);
         
-        pContext.save(productBought);       
-        dContext.save(departConn);
+        pContext.save(productBought);      
 	}
 
 	public static void Buy(Products productBought, Customers customer) {
@@ -193,13 +191,11 @@ public class HelperMethods {
 		double newCapital = buyer.getCapital() - summedValue;		
 		buyer.setCapital(newCapital);
 		
-		Department departConn = dContext.findConnectionByProdId(product.getid());
-		
 		Transactions newTransaction = new Transactions(0,buyer.getId(),summedValue,product.getid(), transactionTime, 0, StateEnum.UndeterminedState.ordinal(), "", "Sold to customer");
         try {
         	cContext.save(buyer);
         	
-        	UpdateProductInDisplay(product, departConn);
+        	UpdateProductInDisplay(product);
         	
         	newTransaction.setProductQuantity(product.getTransactionQuantity());
         	newTransaction.setErrorText("OK!");

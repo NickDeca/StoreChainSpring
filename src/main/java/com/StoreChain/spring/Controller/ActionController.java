@@ -113,7 +113,6 @@ public class ActionController {
 	public @ResponseBody String BuyPost(@ModelAttribute BuyActionClass actionClass, Model model){
 
 		try {
-			List<Products> products = HelperMethods.BringAllProductsDepartments();
 			HelperMethods.CheckValidity(actionClass);
 			
 			Products productBought = productContext.findById(actionClass.getProductKey()).get();
@@ -127,12 +126,10 @@ public class ActionController {
             productBought.setTransactionQuantity(actionClass.getQuantity());
             
             Customers customer = customerContext.findById(actionClass.getCustomerKey()).get();
-
-    		Department departConn = dContext.findConnectionByProdId(actionClass.getProductKey());
             
             if (customer == null)
                 throw new Exception("Customer not found retry!");
-            HelperMethods.UpdateProductInDisplay(productBought, departConn);
+            HelperMethods.UpdateProductInDisplay(productBought);
             HelperMethods.Buy(productBought, customer);
             return "ActionsViews/ActionsBuy";		
             
