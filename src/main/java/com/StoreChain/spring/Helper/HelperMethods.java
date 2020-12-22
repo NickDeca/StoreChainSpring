@@ -44,7 +44,7 @@ public class HelperMethods {
 		java.sql.Date date = getCurrentDate();
 		TransactionManager tManager = new TransactionManager();
 		
-		Transactions transaction = new Transactions(suppliersKey, 0, new Double(0), productForSupply.getid(), date, 0, StateEnum.UndeterminedState.ordinal(), "");
+		Transactions transaction = new Transactions(suppliersKey, 0, new Double(0), productForSupply.getid(), date, quantityToSupply, StateEnum.UndeterminedState.ordinal(), "", "Bought from supplier");
 		
 		try {
 			double boughtValue = productForSupply.getCostBought() * quantityToSupply;
@@ -104,13 +104,13 @@ public class HelperMethods {
 		return pContext.findAll();
 	}
 
-	public static void Display(Products product, Integer numToBeDisplayed, Integer department) throws Exception {		
+	public static void Display(int productKey, Integer numToBeDisplayed, Integer department) throws Exception {		
 		try {
-			Products foundProduct = pContext.findById(product.getid()).get();
+			Products foundProduct = pContext.findById(productKey).get();
 			
 	        if (foundProduct == null)
 	            throw new Exception("No such Product in the database");
-			int newQuantity = product.getQuantityInDisplay() + numToBeDisplayed;
+			int newQuantity = foundProduct.getQuantityInDisplay() + numToBeDisplayed;
 			foundProduct.setQuantityInDisplay(newQuantity);	        
 	        
 			Department connection = dContext.findConnectionProdDepart(foundProduct.getid(), department);
@@ -120,17 +120,17 @@ public class HelperMethods {
 				Department newConnection = new Department( foundProduct.getDescription(),
 						department,	
 						numToBeDisplayed, 
-						product.getQuantityInDisplay() == numToBeDisplayed ? DepartmentProductState.Filled.ordinal() : DepartmentProductState.NeedFilling.ordinal(),
-						product.getid());
+						foundProduct.getQuantityInDisplay() == numToBeDisplayed ? DepartmentProductState.Filled.ordinal() : DepartmentProductState.NeedFilling.ordinal(),
+								foundProduct.getid());
 				
 				dContext.save(newConnection);				
 			}else {
 				int newNumber = connection.getNumber() + numToBeDisplayed;
 				connection.setNumber(newNumber);
 				
-                if (connection.getNumber() == product.getMaxDisplay())
+                if (connection.getNumber() == foundProduct.getMaxDisplay())
                 	connection.setState(DepartmentProductState.Filled.ordinal());
-                else if (connection.getNumber() > product.getMaxDisplay())
+                else if (connection.getNumber() > foundProduct.getMaxDisplay())
                 	connection.setState(DepartmentProductState.OverFilled.ordinal());
                 else
                 	connection.setState(DepartmentProductState.NeedFilling.ordinal());
@@ -195,7 +195,7 @@ public class HelperMethods {
 		
 		Department departConn = dContext.findConnectionByProdId(product.getid());
 		
-		Transactions newTransaction = new Transactions(0,buyer.getId(),summedValue,product.getid(), transactionTime, 0, StateEnum.UndeterminedState.ordinal(), "");
+		Transactions newTransaction = new Transactions(0,buyer.getId(),summedValue,product.getid(), transactionTime, 0, StateEnum.UndeterminedState.ordinal(), "", "Sold to customer");
         try {
         	cContext.save(buyer);
         	

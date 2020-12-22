@@ -27,6 +27,9 @@ public class StoreManager {
 		Transactions transaction = tContext.findById(transactionId).get();
 
 		if (lastTStore != null) {
+			
+            if(lastTStore.getCapital() < capital && operation == StoreCalculationEnum.Subtraction.ordinal())
+                throw new Exception("Cannot buy more than the capital of the store " + lastTStore.getCapital());
 			double finalSum = operation == 0 ? lastTStore.getCapital() - capital : lastTStore.getCapital() + capital;
 			Store saving = new Store();
 			saving.setCapital(finalSum);
@@ -34,7 +37,7 @@ public class StoreManager {
 			storeContext.save(saving);
 
 		} else if (lastTStore == null || transaction.getState() == StateEnum.OkState.ordinal()) {
-			Transactions first = new Transactions(0, 0, capital, 0, timeNow, 0, StateEnum.OkState.ordinal(), "");
+			Transactions first = new Transactions(0, 0, capital, 0, timeNow, 0, StateEnum.OkState.ordinal(), "", "First");
 			try {
 				if (operation == StoreCalculationEnum.Subtraction.ordinal())
 					throw new Exception("First ever transaction should be an addition");

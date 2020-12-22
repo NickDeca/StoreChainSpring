@@ -40,9 +40,11 @@ public class Transactions {
 	@Column(nullable = true)
     public String ErrorText ;
 	
+	@Column(nullable = true)
+    public String Type ;
     
     public Transactions(int recipientKey, int providerKey, Double capital, Integer productKey,
-			Date dateOfTransaction, Integer productQuantity, Integer state, String errorText) {
+			Date dateOfTransaction, Integer productQuantity, Integer state, String errorText, String type) {
 		super();
 		RecipientKey = recipientKey;
 		ProviderKey = providerKey;
@@ -52,6 +54,7 @@ public class Transactions {
 		ProductQuantity = productQuantity;
 		State = state;
 		ErrorText = errorText;
+		Type = type;
 	}
 	public int getId() {
 		return Id;
@@ -106,5 +109,11 @@ public class Transactions {
 	}
 	public void setErrorText(String errorText) {
 		ErrorText = errorText;
+	}
+	public String getType() {
+		return Type;
+	}
+	public void setType(String type) {
+		Type = type;
 	}
 }

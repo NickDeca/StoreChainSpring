@@ -88,10 +88,8 @@ public class ActionController {
 	@PostMapping(path = "/Display")
 	public @ResponseBody String DisplayPost(@ModelAttribute Products product, Model model){
 		
-		try {
-			Products productForDisplay = productContext.findById(product.getid()).get();
-			
-			HelperMethods.Display(productForDisplay ,product.getTransactionQuantity(), product.getDepartment());
+		try {			
+			HelperMethods.Display(product.getid() ,product.getTransactionQuantity(), product.getDepartment());
 			return "ActionsViews/ActionsDisplay";
 		}catch(Exception err) {
 		    model.addAttribute("error", err);
