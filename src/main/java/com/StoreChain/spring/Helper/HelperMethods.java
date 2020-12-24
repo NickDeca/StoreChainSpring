@@ -192,6 +192,9 @@ public class HelperMethods {
         	newTransaction.setState(StateEnum.OkState.ordinal());
         	
             tManager.AddTransaction(newTransaction, tContext);
+            
+            StoreManager sManager = new StoreManager();
+            sManager.CreateStoreRow(summedValue, newTransaction.getId(), StoreCalculationEnum.Addition.ordinal(), storeContext, tContext);
         } catch(Exception err) {
         	newTransaction.setErrorText(err.getMessage());
         	newTransaction.setState(StateEnum.ErrorState.ordinal());
@@ -201,9 +204,6 @@ public class HelperMethods {
         }
         
         CheckIfNeedReSupply(product, productContext, supplierContext, tContext, storeContext);
-        
-        Store newStoreState = new Store();
-        storeContext.save(newStoreState);
 	}
 	
 	private void CheckIfNeedReSupply(Products product, ProductRepository productContext, SuppliersRepository supplierContext, TransactionsRepository tContext, StoreRepository storeContext) throws Exception {

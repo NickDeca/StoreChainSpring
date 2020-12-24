@@ -22,14 +22,13 @@ public class StoreManager {
 		Transactions transaction = tContext.findById(transactionId).get();
 
 		if (lastTStore != null) {
-			
+			//TODO den kanei store new row !!!
             if(lastTStore.getCapital() < capital && operation == StoreCalculationEnum.Subtraction.ordinal())
                 throw new Exception("Cannot buy more than the capital of the store " + lastTStore.getCapital());
             
 			double finalSum = operation == StoreCalculationEnum.Subtraction.ordinal() ? lastTStore.getCapital() - capital : lastTStore.getCapital() + capital;
-			Store saving = new Store();
-			saving.setCapital(finalSum);
-			saving.setTransactionKey(transactionId);
+			
+			Store saving = new Store(finalSum, transactionId);
 			storeContext.save(saving);
 
 		} else if (lastTStore == null || transaction.getState() == StateEnum.OkState.ordinal()) {
@@ -40,9 +39,7 @@ public class StoreManager {
 
 				tManager.AddTransaction(first, tContext);
 
-				Store newRow = new Store();
-				newRow.setCapital(capital);
-				newRow.setTransactionKey(transactionId);
+				Store newRow = new Store(capital,transactionId);
 				storeContext.save(newRow);
 
 			} catch (Exception err) {
@@ -52,7 +49,5 @@ public class StoreManager {
 				throw err;
 			}
 		}
-
 	}
-
 }

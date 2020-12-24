@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.StoreChain.spring.Helper.BuyActionClass;
 import com.StoreChain.spring.Helper.HelperMethods;
@@ -53,7 +54,6 @@ public class ActionController {
 	@GetMapping("/Supply")
 	public String SupplyGet(Model model) {
 		try {
-		    model.addAttribute("Products", productContext.findAll());
 		    model.addAttribute("Product", new Products());
 			return "ActionsViews/ActionsSupply";
 		}catch(Exception err) {
@@ -63,7 +63,7 @@ public class ActionController {
 	}
 	
 	@PostMapping(path = "/Supply")
-	public @ResponseBody String SupplyPost(@ModelAttribute Products product, Model model){
+	public RedirectView  SupplyPost(@ModelAttribute Products product, Model model){
 		try {
 			
 			Products productforSupply = productContext.findById(product.getid()).get();
@@ -73,12 +73,14 @@ public class ActionController {
 				throw new Exception();
 				
 			helperMethods.Supply(product.getSupplier_Key(), productforSupply, product.getTransactionQuantity(), productContext, supplierContext, transactionContext, storeContext);
-			
-			return "ActionsViews/ActionsSupply"; 	
+
+		    model.addAttribute("Product", new Products());
+			return new RedirectView("/Actions/Supply"); 	
 			
 		}catch(Exception err) {
+		    model.addAttribute("Product", new Products());
 		    model.addAttribute("error", err);
-			return "ActionsViews/ActionsSupply"; 
+			return new RedirectView("/Actions/Supply"); 	
 		}
 	}
 	
@@ -96,15 +98,19 @@ public class ActionController {
 	
 
 	@PostMapping(path = "/Display")
-	public @ResponseBody String DisplayPost(@ModelAttribute Products product, Model model){
+	public RedirectView DisplayPost(@ModelAttribute Products product, Model model){
 		
 		try {			
 			HelperMethods helperMethods = new HelperMethods();
 			helperMethods.Display(product.getid() ,product.getTransactionQuantity(), product.getDepartment(), productContext, departmentContext);
-			return "ActionsViews/ActionsDisplay";
+		    model.addAttribute("Products", productContext.findAll());
+		    model.addAttribute("Product", new Products());
+			return new RedirectView("/Actions/Display");
 		}catch(Exception err) {
 		    model.addAttribute("error", err);
-			return "ActionsViews/ActionsDisplay";
+		    model.addAttribute("Products", productContext.findAll());
+		    model.addAttribute("Product", new Products());
+		    return new RedirectView("/Actions/Display");
 		} 
 	}	
 		
@@ -121,7 +127,7 @@ public class ActionController {
 	}
 	
 	@PostMapping(path = "/Buy")
-	public @ResponseBody String BuyPost(@ModelAttribute BuyActionClass actionClass, Model model){
+	public RedirectView BuyPost(@ModelAttribute BuyActionClass actionClass, Model model){
 
 		try {
 			HelperMethods helperMethods = new HelperMethods();
@@ -143,11 +149,17 @@ public class ActionController {
                 throw new Exception("Customer not found retry!");
             helperMethods.UpdateProductInDisplay(productBought, departmentContext, productContext );
             helperMethods.Buy(productBought, customer, customerContext, storeContext, departmentContext, productContext ,supplierContext, transactionContext);
-            return "ActionsViews/ActionsBuy";		
+
+		    model.addAttribute("Products", productContext.findAll());
+		    model.addAttribute("actionClass", new BuyActionClass());
+		    return new RedirectView("/Actions/Buy");
             
 		}catch(Exception err) {
 		    model.addAttribute("Exception", err);
-			return "ActionsViews/ActionsBuy";		
+
+		    model.addAttribute("Products", productContext.findAll());
+		    model.addAttribute("actionClass", new BuyActionClass());
+		    return new RedirectView("/Actions/Buy");
 		}
 	}
 }

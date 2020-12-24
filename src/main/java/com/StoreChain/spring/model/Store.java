@@ -23,6 +23,12 @@ public class Store {
 	@Column(nullable = true)
     public Integer TransactionKey;
 
+	public Store( Double capital, Integer transactionKey) {
+		super();
+		Capital = capital;
+		TransactionKey = transactionKey;
+	}
+
 	public int getId() {
 		return Id;
 	}
