@@ -12,12 +12,7 @@ import com.StoreChain.spring.model.Store;
 import com.StoreChain.spring.model.Transactions;
 
 public class StoreManager {
-	@Autowired
-	private StoreRepository storeContext;
-	@Autowired
-	private TransactionsRepository tContext;
-
-	public void CreateStoreRow(double capital, int transactionId, int operation) throws Exception {
+	public void CreateStoreRow(double capital, int transactionId, int operation, StoreRepository storeContext, TransactionsRepository tContext) throws Exception {
 
 		Date timeNow = HelperMethods.getCurrentDate();
 		TransactionManager tManager = new TransactionManager();
@@ -42,7 +37,7 @@ public class StoreManager {
 				if (operation == StoreCalculationEnum.Subtraction.ordinal())
 					throw new Exception("First ever transaction should be an addition");
 
-				tManager.AddTransaction(first);
+				tManager.AddTransaction(first, tContext);
 
 				Store newRow = new Store();
 				newRow.setCapital(capital);
@@ -52,7 +47,7 @@ public class StoreManager {
 			} catch (Exception err) {
 				first.setErrorText(err.getMessage());
 				first.setState(StateEnum.ErrorState.ordinal());
-				tManager.AddTransaction(first);
+				tManager.AddTransaction(first, tContext);
 				throw err;
 			}
 		}

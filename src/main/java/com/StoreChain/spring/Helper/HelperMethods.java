@@ -27,7 +27,8 @@ import com.StoreChain.spring.model.Transactions;
 
 public class HelperMethods {
 
-	public void Supply(int suppliersKey, Products productForSupply, int quantityToSupply,ProductRepository productContext, SuppliersRepository SupplierContext) throws Exception {
+	public void Supply(int suppliersKey, Products productForSupply, int quantityToSupply,
+			ProductRepository productContext, SuppliersRepository SupplierContext, TransactionsRepository tContext, StoreRepository storeContext) throws Exception {
 		java.sql.Date date = getCurrentDate();
 		TransactionManager tManager = new TransactionManager();
 		
@@ -37,27 +38,25 @@ public class HelperMethods {
 			double boughtValue = productForSupply.getCostBought() * quantityToSupply;
 			
             UpdateSuppliersDue(suppliersKey, boughtValue, productContext, SupplierContext);
-            UpdateProductInStorage(productForSupply, suppliersKey, quantityToSupply);
+            UpdateProductInStorage(productForSupply, suppliersKey, quantityToSupply, productContext);
             
             
             transaction.setCapital(boughtValue);
             transaction.setState(StateEnum.OkState.ordinal());
-            tManager.AddTransaction(transaction);
-            
-            int transactionId = tManager.GetTransaction(transaction).getId();
-            
+            int transactionId = tManager.AddTransaction(transaction, tContext).getId();
+                        
             StoreManager sManager = new StoreManager();
-            sManager.CreateStoreRow(boughtValue, transactionId, StoreCalculationEnum.Subtraction.ordinal());
+            sManager.CreateStoreRow(boughtValue, transactionId, StoreCalculationEnum.Subtraction.ordinal(), storeContext, tContext);
 		}catch(Exception err) {
 			transaction.setErrorText(err.getMessage());
 			transaction.setState(StateEnum.ErrorState.ordinal());
-            tManager.AddTransaction(transaction);      
+            tManager.AddTransaction(transaction, tContext);      
             
             throw err;
 		}
 	}
 
-	private void UpdateProductInStorage(Products productForSupply, int suppliersKey, int quantityToSupply) throws Exception {
+	private void UpdateProductInStorage(Products productForSupply, int suppliersKey, int quantityToSupply, ProductRepository productContext) throws Exception {
 		try {
 			if (productForSupply.getSupplier_Key() != suppliersKey)
 				throw new Exception("The specified supplier does not contain the product");
@@ -65,6 +64,8 @@ public class HelperMethods {
 			int end = productForSupply.getQuantityInStorage() + quantityToSupply;
 			
 			productForSupply.setQuantityInStorage(end);
+			
+			productContext.save(productForSupply);
 		}catch(Exception err) {
 			throw err;
 		}
@@ -72,8 +73,6 @@ public class HelperMethods {
 
 	private void UpdateSuppliersDue(int suppliersKey, double boughtValue,ProductRepository productContext, SuppliersRepository SupplierContext) throws Exception {
 		try {
-			List<Products> p = productContext.findAll();
-			List<Suppliers> s = SupplierContext.findAll();
 			Suppliers supplier = SupplierContext.findById(suppliersKey).get();
 			if (supplier == null)
 				throw new Exception("The specified supplier was not found");
@@ -157,7 +156,7 @@ public class HelperMethods {
 	}
 
 	public void Buy(Products productBought, Customers customer, CustomersRepository customerContext, StoreRepository storeContext,DepartmentRepository departmentContext, 
-			ProductRepository productContext, SuppliersRepository SupplierContext) {
+			ProductRepository productContext, SuppliersRepository supplierContext, TransactionsRepository tContext) {
 
 		try {
 			double summedValue = productBought.getCostSold() * productBought.getTransactionQuantity();
@@ -167,7 +166,7 @@ public class HelperMethods {
         	        
             if (customer.getCapital() - summedValue <= 0)
                 throw new Exception("Customer Does not have the capital required to the transaction");           
-            BuyTransaction(productBought, customer, summedValue, customerContext, storeContext, departmentContext, productContext, SupplierContext);
+            BuyTransaction(productBought, customer, summedValue, customerContext, storeContext, departmentContext, productContext, supplierContext, tContext);
             
 		}catch(Exception err) {
 			
@@ -175,8 +174,8 @@ public class HelperMethods {
 	}
 	
 	@Transactional
-	public void BuyTransaction(Products product, Customers buyer, double summedValue, CustomersRepository cContext, StoreRepository storeContext, DepartmentRepository departmentContext, 
-			ProductRepository productContext, SuppliersRepository SupplierContext) throws Exception {
+	public void BuyTransaction(Products product, Customers buyer, double summedValue, CustomersRepository customerContext, StoreRepository storeContext, DepartmentRepository departmentContext, 
+			ProductRepository productContext, SuppliersRepository supplierContext , TransactionsRepository tContext) throws Exception {
         TransactionManager tManager = new TransactionManager();
         Date transactionTime = getCurrentDate();
 		double newCapital = buyer.getCapital() - summedValue;		
@@ -184,7 +183,7 @@ public class HelperMethods {
 		
 		Transactions newTransaction = new Transactions(0,buyer.getId(),summedValue,product.getid(), transactionTime, 0, StateEnum.UndeterminedState.ordinal(), "", "Sold to customer");
         try {
-        	cContext.save(buyer);
+        	customerContext.save(buyer);
         	
         	UpdateProductInDisplay(product, departmentContext , productContext);
         	
@@ -192,26 +191,26 @@ public class HelperMethods {
         	newTransaction.setErrorText("OK!");
         	newTransaction.setState(StateEnum.OkState.ordinal());
         	
-            tManager.AddTransaction(newTransaction);
+            tManager.AddTransaction(newTransaction, tContext);
         } catch(Exception err) {
         	newTransaction.setErrorText(err.getMessage());
         	newTransaction.setState(StateEnum.ErrorState.ordinal());
         	
-            tManager.AddTransaction(newTransaction);
+            tManager.AddTransaction(newTransaction, tContext);
         	throw err;
         }
         
-        CheckIfNeedReSupply(product, productContext, SupplierContext);
+        CheckIfNeedReSupply(product, productContext, supplierContext, tContext, storeContext);
         
         Store newStoreState = new Store();
         storeContext.save(newStoreState);
 	}
 	
-	private void CheckIfNeedReSupply(Products product, ProductRepository productContext, SuppliersRepository SupplierContext) throws Exception {
+	private void CheckIfNeedReSupply(Products product, ProductRepository productContext, SuppliersRepository supplierContext, TransactionsRepository tContext, StoreRepository storeContext) throws Exception {
 		List<ResupplyHelperClass> list = productContext.CheckIfNeedReSupply(product.getid(), product.getQuantityInStorage());		
 		for(ResupplyHelperClass x : list){
 			Products pSupplier = productContext.findById(x.getProduct()).get();
-			Supply(pSupplier.getSupplier_Key(), pSupplier, x.getQuantityToSupply() - product.getQuantityInStorage(), productContext, SupplierContext);
+			Supply(pSupplier.getSupplier_Key(), pSupplier, x.getQuantityToSupply() - product.getQuantityInStorage(), productContext, supplierContext, tContext, storeContext);
 		}
 		
 	}

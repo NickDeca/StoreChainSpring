@@ -8,16 +8,16 @@ import com.StoreChain.spring.Repository.TransactionsRepository;
 import com.StoreChain.spring.model.Transactions;
 
 public class TransactionManager {
-	@Autowired
-	private TransactionsRepository tContext;
 
-	public Transactions AddTransaction(Transactions transaction) {
+	public Transactions AddTransaction(Transactions transaction, TransactionsRepository tContext) {
 		tContext.save(transaction);
 		
-		return GetTransaction(transaction); 
+		Transactions saved = GetTransaction(transaction, tContext); 
+		
+		return saved;
 	}
 
-	public Transactions GetTransaction(Transactions transaction) {
+	public Transactions GetTransaction(Transactions transaction, TransactionsRepository tContext) {
 		return tContext.getTransaction(transaction.getRecipientKey(), transaction.getProviderKey(), transaction.getProductKey(), transaction.getDateOfTransaction());
 	}
 
