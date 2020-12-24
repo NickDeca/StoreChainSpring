@@ -25,7 +25,8 @@ public class StoreManager {
 			
             if(lastTStore.getCapital() < capital && operation == StoreCalculationEnum.Subtraction.ordinal())
                 throw new Exception("Cannot buy more than the capital of the store " + lastTStore.getCapital());
-			double finalSum = operation == 0 ? lastTStore.getCapital() - capital : lastTStore.getCapital() + capital;
+            
+			double finalSum = operation == StoreCalculationEnum.Subtraction.ordinal() ? lastTStore.getCapital() - capital : lastTStore.getCapital() + capital;
 			Store saving = new Store();
 			saving.setCapital(finalSum);
 			saving.setTransactionKey(transactionId);

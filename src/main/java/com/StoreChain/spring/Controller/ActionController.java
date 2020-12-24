@@ -40,7 +40,7 @@ public class ActionController {
 	@Autowired
 	private TransactionsRepository transactionContext;
 	@Autowired 
-	private SuppliersRepository SupplierContext;
+	private SuppliersRepository supplierContext;
 	@Autowired
 	private StoreRepository storeContext;
 
@@ -72,7 +72,7 @@ public class ActionController {
 			if(productforSupply == null) 
 				throw new Exception();
 				
-			helperMethods.Supply(product.getSupplier_Key(), productforSupply, product.getTransactionQuantity(), productContext, SupplierContext);
+			helperMethods.Supply(product.getSupplier_Key(), productforSupply, product.getTransactionQuantity(), productContext, supplierContext, transactionContext, storeContext);
 			
 			return "ActionsViews/ActionsSupply"; 	
 			
@@ -142,7 +142,7 @@ public class ActionController {
             if (customer == null)
                 throw new Exception("Customer not found retry!");
             helperMethods.UpdateProductInDisplay(productBought, departmentContext, productContext );
-            helperMethods.Buy(productBought, customer, customerContext, storeContext, departmentContext, productContext ,SupplierContext);
+            helperMethods.Buy(productBought, customer, customerContext, storeContext, departmentContext, productContext ,supplierContext, transactionContext);
             return "ActionsViews/ActionsBuy";		
             
 		}catch(Exception err) {
