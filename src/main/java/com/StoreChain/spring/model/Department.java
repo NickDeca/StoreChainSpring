@@ -22,6 +22,8 @@ public class Department {
 	private int State;
 	private int Prod_Id;
 	
+	public Department() {}
+	
 	public Department( String description, int departmentKey, Integer number, int state, int prod_Id) {
 		super();
 		Description = description;

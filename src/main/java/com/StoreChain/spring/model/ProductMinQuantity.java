@@ -24,6 +24,8 @@ public class ProductMinQuantity {
 		MinDisplay = minDisplay;
 		MinStorage = minStorage;
 	}
+	
+	public ProductMinQuantity() {}
 
 	public int getId() {
 		return Id;

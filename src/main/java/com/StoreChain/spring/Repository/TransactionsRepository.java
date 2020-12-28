@@ -1,11 +1,10 @@
 package com.StoreChain.spring.Repository;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.StoreChain.spring.model.Store;
 import com.StoreChain.spring.model.Transactions;
 
 public interface TransactionsRepository extends JpaRepository<Transactions, Integer> {

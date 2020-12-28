@@ -60,6 +60,28 @@ public class Products {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer DepartmentForeignId;
 
+	public Products() {}
+	
+	public Products(int id, Integer supplier_Key, Integer category, Integer department, String description,
+			Boolean isDisplay, Double costSold, Double costBought, Integer quantityInStorage, Integer quantityInDisplay,
+			Integer transactionQuantity, Integer maxDisplay, Integer minStorage, Integer departmentForeignId) {
+		super();
+		this.id = id;
+		Supplier_Key = supplier_Key;
+		Category = category;
+		Department = department;
+		Description = description;
+		this.isDisplay = isDisplay;
+		CostSold = costSold;
+		CostBought = costBought;
+		QuantityInStorage = quantityInStorage;
+		QuantityInDisplay = quantityInDisplay;
+		TransactionQuantity = transactionQuantity;
+		MaxDisplay = maxDisplay;
+		MinStorage = minStorage;
+		DepartmentForeignId = departmentForeignId;
+	}
+
 	public int getid() {
 		return id;
 	}

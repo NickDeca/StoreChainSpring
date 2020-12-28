@@ -28,7 +28,9 @@ public class StoreManager {
             
 			double finalSum = operation == StoreCalculationEnum.Subtraction.ordinal() ? lastTStore.getCapital() - capital : lastTStore.getCapital() + capital;
 			
-			Store saving = new Store(finalSum, transactionId);
+			Store saving = new Store();//(finalSum, transactionId);
+			saving.setCapital(finalSum);
+			saving.setTransactionKey(transactionId);
 			storeContext.save(saving);
 
 		} else if (lastTStore == null || transaction.getState() == StateEnum.OkState.ordinal()) {
@@ -39,7 +41,9 @@ public class StoreManager {
 
 				tManager.AddTransaction(first, tContext);
 
-				Store newRow = new Store(capital,transactionId);
+				Store newRow = new Store();//(capital,transactionId);
+				newRow.setCapital(capital);
+				newRow.setTransactionKey(transactionId);
 				storeContext.save(newRow);
 
 			} catch (Exception err) {

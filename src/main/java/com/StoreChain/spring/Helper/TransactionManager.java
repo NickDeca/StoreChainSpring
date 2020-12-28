@@ -11,10 +11,8 @@ public class TransactionManager {
 
 	public Transactions AddTransaction(Transactions transaction, TransactionsRepository tContext) {
 		tContext.save(transaction);
-		
-		Transactions saved = GetTransaction(transaction, tContext); 
-		
-		return saved;
+		//Transactions saved = GetTransaction(transaction, tContext); 
+		return transaction;
 	}
 
 	public Transactions GetTransaction(Transactions transaction, TransactionsRepository tContext) {

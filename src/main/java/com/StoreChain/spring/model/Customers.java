@@ -27,6 +27,8 @@ public class Customers {
     
     @Column(name = "Last_Name", nullable = true)
     private String LastName;
+    
+    public Customers() {}
 
 	public int getId() {
 		return Id;

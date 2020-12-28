@@ -1,6 +1,6 @@
 package com.StoreChain.spring.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,6 +43,8 @@ public class Transactions {
 	@Column(nullable = true)
     public String Type ;
     
+	public Transactions() {}
+	
     public Transactions(int recipientKey, int providerKey, Double capital, Integer productKey,
 			Date dateOfTransaction, Integer productQuantity, Integer state, String errorText, String type) {
 		super();
