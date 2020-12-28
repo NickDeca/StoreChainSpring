@@ -98,12 +98,17 @@ public class HelperMethods {
 			
 	        if (foundProduct == null)
 	            throw new Exception("No such Product in the database");
-			int newQuantity = foundProduct.getQuantityInDisplay() + numToBeDisplayed;
-			foundProduct.setQuantityInDisplay(newQuantity);	        
-	        
-			Department connection = departmentContext.findConnectionProdDepart(foundProduct.getid(), department);
+			int newQuantityDisplay = foundProduct.getQuantityInDisplay() + numToBeDisplayed;
+			int newQuantityStorage = foundProduct.getQuantityInStorage() - numToBeDisplayed;
+			foundProduct.setQuantityInDisplay(newQuantityDisplay);	        
+	        foundProduct.setQuantityInStorage(newQuantityStorage);
+			Department connection = departmentContext.findConnectionByProdId(foundProduct.getid());
 			
-			if(connection == null) {
+			productContext.save(foundProduct);
+			if(connection == null) {		
+				
+				foundProduct.setDepartment(department);
+				foundProduct.setDepartmentForeignId(department);
 				
 				Department newConnection = new Department( foundProduct.getDescription(),
 						department,	

@@ -17,9 +17,9 @@
 	            <th th:text="id"> Id </th>
 	            <th th:text="CostSold">Cost Sold </th>
 	            <th th:text="Description"> Description </th>
-	            <th th:text="Quantity">  Storage Quantity </th>
+	            <th th:text="Store Quantity">  Storage Quantity </th>
 	            <th th:text="Category"> Category </th>
-	            <th th:text="Quantity"> Quantity </th>
+	            <th th:text="Display Quantity">  Storage Quantity </th>
 	        </tr>
 	    </thead>
 	    <tbody>
@@ -27,8 +27,9 @@
 				<td th:text="${message.getid()}"></td>
 				<td th:text="${message.getCostSold()}"> Cost of Product </td>
 				<td th:text="${message.getDescription()}"> Description</td>
-				<td th:text="${message.getQuantityInStorage()}"> Quantity for Sell </td>
+				<td th:text="${message.getQuantityInStorage()}"> Quantity in Storage </td>
 				<td th:text="${message.getCategory()}"> Category </td>
+				<td th:text="${message.getQuantityInDisplay()}"> Quantity for Sell </td>
 		    </tr>
 	    </tbody>
     </table></br>
