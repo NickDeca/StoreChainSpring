@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<header th:replace="fragments/header">
+</header>
+<body>
+	<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
+	<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error != null}"></div>
+	<!--tr th:if="Transactions == null}">
+            <td colspan="2"> No Transactions are available </td>
+   </tr-->
+   <table th:object="${Transactions}" id="Transactions" border="1">
+	   <thead>
+	        <tr>
+	            <th th:text="id"> Id </th>
+	            <th th:text="Recipient">Recipient </th>
+	            <th th:text="Provider"> Provider </th>
+	            <th th:text="TransactionCapital">  Transaction capital </th>
+	            <th th:text="Product"> Product </th>
+	            <th th:text="Date">  Date </th>
+	            <th th:text="TransactionQuantity">  Transaction Quantity </th>
+	            <th th:text="State">  State </th>
+	            <th th:text="Errors">  Possible Errors  </th>
+	            <th th:text="Type">  Type </th>
+	        </tr>
+	    </thead>
+	    <tbody>
+			<tr th:each="message : ${Transactions}">
+				<td th:text="${message.getId()}"></td>
+				<td th:text="${message.getRecipientKey()}"> Recipient </td>
+				<td th:text="${message.getProviderKey()}"> Provider</td>
+				<td th:text="${message.getCapital()}"> Transaction capital </td>
+				<td th:text="${message.getProductKey()}"> Product </td>
+				<td th:text="${message.getDateOfTransaction()}"> Date </td>
+				<td th:text="${message.getProductQuantity()}"> Transaction Quantity </td>
+				<td th:text="${message.getState()}"> State </td>
+				<td th:text="${message.getErrorText()}"> Possible Errors </td>
+				<td th:text="${message.getType()}"> Type </td>
+		    </tr>
+	    </tbody>
+	 </table>
+</body>
+</html>

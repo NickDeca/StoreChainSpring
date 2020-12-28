@@ -162,4 +162,16 @@ public class ActionController {
 		    return new RedirectView("/Actions/Buy");
 		}
 	}
+	
+	@GetMapping("/Transactions")
+	public String TransactionsGet(Model model) {
+		try {
+		    model.addAttribute("Transactions", transactionContext.getLastTenTransactions());
+			return "ActionsViews/ActionsTransactions";
+		}catch(Exception err) {
+		    model.addAttribute("error", err);
+		    model.addAttribute("Transactions", transactionContext.getLastTenTransactions());
+			return "ActionsViews/ActionsTransactions";
+		}
+	}
 }

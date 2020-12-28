@@ -24,28 +24,19 @@
 	    </thead>
 	    <tbody>
 			<tr th:each="message : ${Products}">
-				<td th:text="${message.getid()}"></td>
-				<td th:text="${message.getCostSold()}"> Cost of Product </td>
-				<td th:text="${message.getDescription()}"> Description</td>
-				<td th:text="${message.getQuantityInStorage()}"> Quantity in Storage </td>
-				<td th:text="${message.getCategory()}"> Category </td>
-				<td th:text="${message.getQuantityInDisplay()}"> Quantity for Sell </td>
+				<td th:text="${message.getId()}"></td>
+				<td th:text="${message.getRecipientKey()}"> Cost of Product </td>
+				<td th:text="${message.getProviderKey()}"> Description</td>
+				<td th:text="${message.getCapital()}"> Quantity in Storage </td>
+				<td th:text="${message.getProductKey()}"> Category </td>
+				<td th:text="${message.getDateOfTransaction()}"> Quantity for Sell </td>
+				<td th:text="${message.getProductQuantity()}"> Quantity for Sell </td>
+				<td th:text="${message.getState()}"> Quantity for Sell </td>
+				<td th:text="${message.getErrorText()}"> Quantity for Sell </td>
+				<td th:text="${message.getType()}"> Quantity for Sell </td>
 		    </tr>
 	    </tbody>
-    </table></br>
-    <p><b>Product to add to displayed quantity</b></p>
-    <form action="#" th:action="@{/Actions/Display}" th:object="${Product}" method="post">
-    	<p>Product: <input type="number" th:field="*{Id}" /></p>
-    	<p>Quantity: <input type="number" th:field="*{TransactionQuantity}" /></p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-    </form></br>
-    <p><b>New product to be displayed</b></p>
-    <form action="#" th:action="@{/Actions/Display}" th:object="${Product}" method="post">
-    	<p>Product Id: <input type="number" th:field="*{Id}" /></p>
-    	<p>Quantity: <input type="number" th:field="*{TransactionQuantity}" /></p>
-    	<p>Department: <input type="number" th:field="*{Department}" /></p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-    </form>
+    </table>
 </body>
 </html>
 
