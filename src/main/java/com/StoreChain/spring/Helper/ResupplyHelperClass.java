@@ -4,7 +4,7 @@ import javax.persistence.Column;
 
 import org.springframework.stereotype.Component;
 
-import com.StoreChain.spring.model.Products;
+import com.StoreChain.spring.Model.Products;
 
 @Component
 public class ResupplyHelperClass {

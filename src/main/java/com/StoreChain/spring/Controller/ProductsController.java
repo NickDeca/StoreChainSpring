@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.StoreChain.spring.Model.ProductMinQuantity;
+import com.StoreChain.spring.Model.Products;
 import com.StoreChain.spring.Repository.ProductMinQuantityRepository;
 import com.StoreChain.spring.Repository.ProductRepository;
-import com.StoreChain.spring.model.ProductMinQuantity;
-import com.StoreChain.spring.model.Products;
 
 
 @Controller
@@ -85,10 +85,7 @@ public class ProductsController {
 		
 		if(product.getDescription() != null)
 			update.setDescription(product.getDescription());
-		
-		if(product.getIsDisplay() != null)
-			update.setIsDisplay(product.getIsDisplay());
-		
+				
 		if(product.getQuantityInDisplay() != null)
 			update.setQuantityInDisplay(product.getQuantityInDisplay());
 		

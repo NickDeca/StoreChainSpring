@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.StoreChain.spring.Enum.StateEnum;
 import com.StoreChain.spring.Enum.StoreCalculationEnum;
+import com.StoreChain.spring.Model.Store;
+import com.StoreChain.spring.Model.Transactions;
 import com.StoreChain.spring.Repository.StoreRepository;
 import com.StoreChain.spring.Repository.TransactionsRepository;
-import com.StoreChain.spring.model.Store;
-import com.StoreChain.spring.model.Transactions;
 
 public class StoreManager {
 	public void CreateStoreRow(double capital, int transactionId, int operation, StoreRepository storeContext, TransactionsRepository tContext) throws Exception {

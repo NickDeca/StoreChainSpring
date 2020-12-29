@@ -1,4 +1,4 @@
-package com.StoreChain.spring.model;
+package com.StoreChain.spring.Model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.StoreChain.spring.model;
+package com.StoreChain.spring.Model;
 
 import java.util.Date;
 

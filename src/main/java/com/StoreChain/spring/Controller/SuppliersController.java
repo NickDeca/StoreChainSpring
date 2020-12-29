@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.StoreChain.spring.Model.Suppliers;
 import com.StoreChain.spring.Repository.SuppliersRepository;
-import com.StoreChain.spring.model.Suppliers;
 
 @Controller
 @RequestMapping(path="/Suppliers")

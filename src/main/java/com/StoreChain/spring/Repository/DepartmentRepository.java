@@ -3,7 +3,7 @@ package com.StoreChain.spring.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.StoreChain.spring.model.Department;
+import com.StoreChain.spring.Model.Department;
 
 
 public interface DepartmentRepository extends JpaRepository<Department, Integer> {

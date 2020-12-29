@@ -1,4 +1,4 @@
-package com.StoreChain.spring.model;
+package com.StoreChain.spring.Model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,9 +28,6 @@ public class Products {
 	@Column(nullable = true)
 	private String Description;
 
-	@Column(nullable = true)
-	private Boolean isDisplay;
-	
 	@Column(name="CostSold",nullable = true)
 	private Double CostSold;
 
@@ -63,7 +60,7 @@ public class Products {
 	public Products() {}
 	
 	public Products(int id, Integer supplier_Key, Integer category, Integer department, String description,
-			Boolean isDisplay, Double costSold, Double costBought, Integer quantityInStorage, Integer quantityInDisplay,
+			Double costSold, Double costBought, Integer quantityInStorage, Integer quantityInDisplay,
 			Integer transactionQuantity, Integer maxDisplay, Integer minStorage, Integer departmentForeignId) {
 		super();
 		this.id = id;
@@ -71,7 +68,6 @@ public class Products {
 		Category = category;
 		Department = department;
 		Description = description;
-		this.isDisplay = isDisplay;
 		CostSold = costSold;
 		CostBought = costBought;
 		QuantityInStorage = quantityInStorage;
@@ -113,14 +109,6 @@ public class Products {
 
 	public void setDepartment(Integer department) {
 		Department = department;
-	}
-
-	public Boolean getIsDisplay() {
-		return isDisplay;
-	}
-
-	public void setIsDisplay(Boolean isDisplay) {
-		this.isDisplay = isDisplay;
 	}
 
 	public Double getCostSold() {

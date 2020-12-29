@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.StoreChain.spring.Helper.ResupplyHelperClass;
-import com.StoreChain.spring.model.*;
+import com.StoreChain.spring.Model.*;
 
 public interface ProductRepository extends JpaRepository<Products, Integer> {
 

@@ -4,8 +4,8 @@ import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.StoreChain.spring.Model.Transactions;
 import com.StoreChain.spring.Repository.TransactionsRepository;
-import com.StoreChain.spring.model.Transactions;
 
 public class TransactionManager {
 

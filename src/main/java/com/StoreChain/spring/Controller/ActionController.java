@@ -15,15 +15,15 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.StoreChain.spring.Helper.BuyActionClass;
 import com.StoreChain.spring.Helper.HelperMethods;
+import com.StoreChain.spring.Model.Customers;
+import com.StoreChain.spring.Model.Department;
+import com.StoreChain.spring.Model.Products;
 import com.StoreChain.spring.Repository.CustomersRepository;
 import com.StoreChain.spring.Repository.DepartmentRepository;
 import com.StoreChain.spring.Repository.ProductRepository;
 import com.StoreChain.spring.Repository.StoreRepository;
 import com.StoreChain.spring.Repository.SuppliersRepository;
 import com.StoreChain.spring.Repository.TransactionsRepository;
-import com.StoreChain.spring.model.Customers;
-import com.StoreChain.spring.model.Department;
-import com.StoreChain.spring.model.Products;
 
 
 @Controller

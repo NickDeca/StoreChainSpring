@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.StoreChain.spring.Model.Customers;
 import com.StoreChain.spring.Repository.CustomersRepository;
-import com.StoreChain.spring.model.Customers;
 
 @Controller
 @RequestMapping(path="/Customers")

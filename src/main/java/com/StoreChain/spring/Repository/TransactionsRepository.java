@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.StoreChain.spring.model.Transactions;
+import com.StoreChain.spring.Model.Transactions;
 
 public interface TransactionsRepository extends JpaRepository<Transactions, Integer> {
 
