@@ -31,13 +31,11 @@ import com.StoreChain.spring.Repository.TransactionsRepository;
 public class ActionController {
 	
 	@Autowired
-	private ProductRepository productContext;
-	
+	private ProductRepository productContext;	
 	@Autowired
 	private CustomersRepository customerContext;
 	@Autowired
-	private DepartmentRepository departmentContext;
-	
+	private DepartmentRepository departmentContext;	
 	@Autowired
 	private TransactionsRepository transactionContext;
 	@Autowired 
@@ -67,12 +65,12 @@ public class ActionController {
 		try {
 			
 			Products productforSupply = productContext.findById(product.getid()).get();
-			HelperMethods helperMethods = new HelperMethods();
+			HelperMethods helperMethods = new HelperMethods(productContext,customerContext,departmentContext,transactionContext, supplierContext, storeContext);
 			
 			if(productforSupply == null) 
 				throw new Exception();
 				
-			helperMethods.Supply(product.getSupplier_Key(), productforSupply, product.getTransactionQuantity(), productContext, supplierContext, transactionContext, storeContext);
+			helperMethods.Supply(product.getSupplier_Key(), productforSupply, product.getTransactionQuantity());
 
 		    model.addAttribute("Product", new Products());
 			return new RedirectView("/Actions/Supply"); 	
@@ -101,8 +99,8 @@ public class ActionController {
 	public RedirectView DisplayPost(@ModelAttribute Products product, Model model){
 		
 		try {			
-			HelperMethods helperMethods = new HelperMethods();
-			helperMethods.Display(product.getid() ,product.getTransactionQuantity(), product.getDepartment(), productContext, departmentContext);
+			HelperMethods helperMethods = new HelperMethods(productContext,customerContext,departmentContext,transactionContext, supplierContext, storeContext);
+			helperMethods.Display(product.getid() ,product.getTransactionQuantity(), product.getDepartment());
 		    model.addAttribute("Products", productContext.findAll());
 		    model.addAttribute("Product", new Products());
 			return new RedirectView("/Actions/Display");
@@ -130,7 +128,7 @@ public class ActionController {
 	public RedirectView BuyPost(@ModelAttribute BuyActionClass actionClass, Model model){
 
 		try {
-			HelperMethods helperMethods = new HelperMethods();
+			HelperMethods helperMethods = new HelperMethods(productContext,customerContext,departmentContext,transactionContext, supplierContext, storeContext);
 			helperMethods.CheckValidity(actionClass);
 			
 			Products productBought = productContext.findById(actionClass.getProductKey()).get();
@@ -147,8 +145,8 @@ public class ActionController {
             
             if (customer == null)
                 throw new Exception("Customer not found retry!");
-            helperMethods.UpdateProductInDisplay(productBought, departmentContext, productContext );
-            helperMethods.Buy(productBought, customer, customerContext, storeContext, departmentContext, productContext ,supplierContext, transactionContext);
+            helperMethods.UpdateProductInDisplay(productBought);
+            helperMethods.Buy(productBought, customer);
 
 		    model.addAttribute("Products", productContext.findAll());
 		    model.addAttribute("actionClass", new BuyActionClass());
