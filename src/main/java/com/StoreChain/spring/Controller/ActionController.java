@@ -145,7 +145,7 @@ public class ActionController {
             
             if (customer == null)
                 throw new Exception("Customer not found retry!");
-            helperMethods.UpdateProductInDisplay(productBought);
+            //helperMethods.UpdateProductInDisplay(productBought);
             helperMethods.Buy(productBought, customer);
 
 		    model.addAttribute("Products", productContext.findAll());

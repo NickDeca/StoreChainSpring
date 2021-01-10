@@ -11,17 +11,17 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "CentralStoreCapital")
-public class Store {
+public class Store { 
 	@Id
 	@Column(name = "Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Id;
 
 	@Column(nullable = true)
-    public Double Capital;
+    private Double Capital;
 
 	@Column(nullable = true)
-    public Integer TransactionKey;
+    private Integer TransactionKey;
 
 	public Store() {}
 	

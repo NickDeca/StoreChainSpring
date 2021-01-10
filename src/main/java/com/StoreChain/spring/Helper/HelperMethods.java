@@ -175,21 +175,17 @@ public class HelperMethods {
         ProductContext.save(productBought);      
 	}
 
-	public void Buy(Products productBought, Customers customer) {
+	public void Buy(Products productBought, Customers customer) throws Exception {
 
-		try {
-			double summedValue = productBought.getCostSold() * productBought.getTransactionQuantity();
+		double summedValue = productBought.getCostSold() * productBought.getTransactionQuantity();
 			
-	        if (summedValue == 0)
-	            throw new Exception("No Products bought");
+	    if (summedValue == 0)
+	        throw new Exception("No Products bought");
         	        
-            if (customer.getCapital() - summedValue <= 0)
-                throw new Exception("Customer Does not have the capital required to the transaction");           
-            BuyTransaction(productBought, customer, summedValue);
-            
-		}catch(Exception err) {
-			
-		}
+        if (customer.getCapital() - summedValue <= 0)
+            throw new Exception("Customer does not have the capital required for the transaction");           
+        BuyTransaction(productBought, customer, summedValue);
+
 	}
 	
 	@Transactional
