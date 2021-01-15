@@ -44,7 +44,8 @@ public class SuppliersController {
 	public String CreateNewProduct(@ModelAttribute Suppliers supplier, Model model){
 			
 		SupplierContext.save(supplier);		
-		return "SuppliersViews/CreatedSuppliers"; 
+	    model.addAttribute("Suppliers", new Suppliers());
+		return "SuppliersViews/CreateSuppliers"; 
 	}
 	
 	@GetMapping("/Update")
@@ -55,7 +56,7 @@ public class SuppliersController {
 	
 
 	@PostMapping("/Update")
-	public @ResponseBody String UpdateSuppliers(@ModelAttribute Suppliers supplier, Model model){
+	public String UpdateSuppliers(@ModelAttribute Suppliers supplier, Model model){
 		
 		Optional<Suppliers> updateToBe = SupplierContext.findById(supplier.getId());
 		Suppliers update = null;
@@ -75,8 +76,9 @@ public class SuppliersController {
 			update.setName(supplier.getName());
 						
 		SupplierContext.save(update);
-		
-		return "SuppliersViews/UpdatedSuppliers";
+
+	    model.addAttribute("Suppliers", new Suppliers());
+		return "SuppliersViews/UpdateSuppliers";
 	}
 	
 	@GetMapping("/Delete")
@@ -87,7 +89,7 @@ public class SuppliersController {
 	
 
 	@PostMapping("/Delete")
-	public @ResponseBody String DeleteSupplier(@RequestParam int id) {
+	public String DeleteSupplier(@RequestParam int id, Model model) {
 		Optional<Suppliers> toBeDeleted = SupplierContext.findById(id);
 		Suppliers supplier = null;
 		
@@ -95,7 +97,8 @@ public class SuppliersController {
 			supplier = toBeDeleted.get();
 		
 		SupplierContext.delete(supplier);
-		
-		return "SuppliersViews/DeletedSuppliers";
+
+		model.addAttribute("Suppliers", new Suppliers());
+		return "SuppliersViews/DeleteSuppliers";
 	}
 }

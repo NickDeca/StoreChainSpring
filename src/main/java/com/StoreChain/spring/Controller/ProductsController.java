@@ -48,10 +48,12 @@ public class ProductsController {
 	@PostMapping(path = "/Create")
 	public String CreateNewProduct(@ModelAttribute Products product, Model model){
 			
+		product.setTransactionQuantity(0);
 		productContext.save(product);
 		
 		pmContext.save(new ProductMinQuantity(product.getid(), product.getMaxDisplay(), product.getMinStorage()));
-		return "ProductsViews/Created"; 
+	    model.addAttribute("Products", new Products());
+		return "ProductsViews/CreateProduct"; 
 	}
 	
 	@GetMapping("/Update")
@@ -61,7 +63,7 @@ public class ProductsController {
 	}
 
 	@PostMapping("/Update")
-	public @ResponseBody String UpdateProduct(@ModelAttribute Products product, Model model){
+	public String UpdateProduct(@ModelAttribute Products product, Model model){
 		
 		Optional<Products> updateToBe = productContext.findById(product.getid());
 		Products update = null;
@@ -103,7 +105,9 @@ public class ProductsController {
 		
 		productContext.save(update);
 		
-		return "ProductsViews/Updated";
+	    model.addAttribute("Products", new Products());
+		
+		return "ProductsViews/UpdateProduct";
 	}
 	
 	@GetMapping("/Delete")
@@ -113,7 +117,7 @@ public class ProductsController {
 	}
 	
 	@PostMapping("/Delete")
-	public @ResponseBody String DeleteProduct(@RequestParam int id) {
+	public String DeleteProduct(@RequestParam int id, Model model) {
 		
 		Optional<Products> toBeDeleted = productContext.findById(id);
 		Products product = null;
@@ -122,8 +126,9 @@ public class ProductsController {
 			product = toBeDeleted.get();
 		
 		productContext.delete(product);
-		
-		return "Deleted";
+
+	    model.addAttribute("Products", new Products());
+		return "ProductsViews/DeleteProduct";
 	}
 }
 

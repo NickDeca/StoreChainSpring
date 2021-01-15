@@ -16,7 +16,7 @@ document.getElementById("innertextmodal").innerHTML += number + " ?";
 <body>
 	<h1>Form</h1>
     <form action="#" th:action="@{/Suppliers/Delete}" th:object="${Suppliers}" method="post">    
-    	<p>Id of suppplier to be deleted: <input type="number" id="deleter" th:field="*{Id}" /></p>
+    	<p>Id of suppplier to be deleted: <input type="number" id="deleter" th:field="*{id}" /></p>
     	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="getdeleter()">
   			Delete
 		</button>

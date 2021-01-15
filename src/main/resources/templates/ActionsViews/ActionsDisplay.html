@@ -45,13 +45,6 @@
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
     </form>
     <br/>
-	    <h3>New product to be displayed</h3>
-        <form action="#" th:action="@{/Actions/Display}" th:object="${Product}" method="post">
-    	<p>Product Id to be displayed: <input type="number" th:field="*{id}" /></p>
-    	<p>Quantity for display: <input type="number" th:field="*{TransactionQuantity}" /></p>
-    	<p>Department to be displayed in: <input type="number" th:field="*{Department}" /></p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-    </form>
 </body>
 </html>
 

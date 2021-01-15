@@ -41,10 +41,11 @@ public class CustomersController {
 	}
 	
 	@PostMapping(path = "/Create")
-	public @ResponseBody String CreateNewCustomer(@ModelAttribute Customers customer, Model model){
+	public String CreateNewCustomer(@ModelAttribute Customers customer, Model model){
 			
 		customerContext.save(customer);		
-		return "CustomersViews/CreatedCustomers"; 
+	    model.addAttribute("Customers", new Customers());
+		return "CustomersViews/CreateCustomers"; 
 	}
 	
 	@GetMapping("/Update")
@@ -54,7 +55,7 @@ public class CustomersController {
 	}
 	
 	@PostMapping("/Update")
-	public @ResponseBody String UpdateCustomer(@ModelAttribute Customers customer, Model model){
+	public String UpdateCustomer(@ModelAttribute Customers customer, Model model){
 		Optional<Customers> updateToBe = customerContext.findById(customer.getId());
 		Customers update = null;
 		if(updateToBe.isPresent())
@@ -73,8 +74,9 @@ public class CustomersController {
 			update.setLastName(customer.getLastName());
 		
 		customerContext.save(update);
+	    model.addAttribute("Customers", new Customers());
 		
-		return "CustomersViews/UpdatedCustomers";
+		return "CustomersViews/UpdateCustomers";
 	}
 	
 	@GetMapping("/Delete")
@@ -84,7 +86,7 @@ public class CustomersController {
 	}
 	
 	@PostMapping("/Delete")
-	public @ResponseBody String DeleteCustomer(@RequestParam int id) {
+	public String DeleteCustomer(@RequestParam int id, Model model) {
 		
 		Optional<Customers> toBeDeleted = customerContext.findById(id);
 		Customers customer = null;
@@ -93,7 +95,8 @@ public class CustomersController {
 			customer = toBeDeleted.get();
 		
 		customerContext.delete(customer);
-		
-		return "CustomersViews/DeletedCustomers";
+
+	    model.addAttribute("Customers", new Customers());
+		return "CustomersViews/DeleteCustomers";
 	}
 }
