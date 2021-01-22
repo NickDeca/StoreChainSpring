@@ -30,8 +30,9 @@ public class CustomersController {
 	}
 	
 	@GetMapping("/All")
-	public @ResponseBody Iterable<Customers> getAllProducts(){
-		return customerContext.findAll();
+	public String CustomersAllGet(Model model) {
+	    model.addAttribute("Customers", customerContext.findAll());
+		return "CustomersViews/CustomersAll";
 	}
 	
 	@GetMapping("/Create")

@@ -1,0 +1,39 @@
+ <!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<header th:replace="fragments/header">
+</header>
+<body>
+</br>
+   <table th:object="${Products}" id="Products" border="1">
+	   <thead>
+	        <tr>
+	            <th th:text="id"> Id </th>
+	            <th>Supplier Key </th>
+	            <th>Category </th>
+	            <th>Department </th>
+	            <th th:text="Description"> Description </th>
+	            <th>Cost Sold </th>
+	            <th>Cost Bought </th>
+	            <th>Quantity in Display </th>
+	            <th>quantity in Storage </th>
+	        </tr>
+	    </thead>
+	    <tbody>
+			<tr th:each="message : ${Products}">
+				<td th:text="${message.getid()}"></td>
+				<td th:text="${message.getSupplier_Key()}">  </td>
+				<td th:text="${message.getCategory()}">  </td>
+				<td th:text="${message.getDepartment()}">  </td>
+				<td th:text="${message.getDescription()}"> Description</td>
+				<td th:text="${message.getCostSold()}"> Cost Sold </td>
+				<td th:text="${message.getCostBought()}">  </td>
+				<td th:text="${message.getQuantityInDisplay()}"> Quantity In Display </td>
+				<td th:text="${message.getQuantityInStorage()}"> Quantity In Storage </td>
+		    </tr>
+	    </tbody>
+    </table></br>
+  </body>
+</html>

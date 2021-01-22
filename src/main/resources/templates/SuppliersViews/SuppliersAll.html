@@ -1,0 +1,31 @@
+ <!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<header th:replace="fragments/header">
+</header>
+<body>
+</br>
+   <table th:object="${Suppliers}" id="supplier" border="1">
+	   <thead>
+	        <tr>
+	            <th th:text="Id"> Id </th>
+	            <th> Due Payment </th>
+	            <th th:text="Category">  Category </th>
+	            <th th:text="Description"> Description </th>
+	            <th th:text="Name"> Name </th>
+	        </tr>
+	    </thead>
+	    <tbody>
+			<tr th:each="message : ${Suppliers}">
+				<td th:text="${message.getId()}"></td>
+				<td th:text="${message.getPayment_Due()}"> Capital </td>
+				<td th:text="${message.getCategory()}"> Category</td>
+				<td th:text="${message.getDescription()}"> Description</td>
+				<td th:text="${message.getName()}"> Name </td>
+		    </tr>
+	    </tbody>
+    </table>
+  </body>
+</html>

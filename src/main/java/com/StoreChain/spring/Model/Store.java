@@ -15,7 +15,7 @@ public class Store {
 	@Id
 	@Column(name = "Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
+	public int Id;
 
 	@Column(nullable = true)
     private Double Capital;

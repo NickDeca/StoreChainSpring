@@ -6,6 +6,7 @@
 <header th:replace="fragments/header">
 </header>
 <body>
+<br/>
 	<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
 	<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error != null}"></div>
 	<form action="#" th:action="@{/Actions/Supply}" th:object="${Product}" method="post">

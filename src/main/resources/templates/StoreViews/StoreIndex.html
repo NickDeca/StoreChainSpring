@@ -7,13 +7,37 @@
 <header th:replace="fragments/header">
 </header>
 <body>
-<tr th:if="${Store == null}">
+<!--tr th:if="${Store == null}">
             <td colspan="2"> No Transactions are available </td>
         </tr>
-	<tr th:each="message : ${Store}">
-            <td th:text="${message.id}">1</td>
-            <td th:text="${message.PaymentDue}">Payment</td>
+           <table th:object="${Store}" id="Products" border="1">
+	   <thead>
+            <td th:text="${message.Id}">1</td>
+            <td th:text="${message.Capital}">Capital</td>
             <td th:text="${message.TransactionKey}">Last Transaction</td>
         </tr>
+	    </thead>
+	<tr th:each="message : ${Store}">
+            <td th:text="${message.id}">1</td>
+            <td th:text="${message.Capital}">Capital</td>
+            <td th:text="${message.TransactionKey}">Last Transaction</td>
+        </tr-->
+        <br/>
+           <table th:object="${Store}" id="Products" border="1">
+	   <thead>
+	        <tr>
+	            <td>ID</td>
+	            <td>Capital</td>
+	            <td>Last Transaction</td>
+	        </tr>
+	    </thead>
+	    <tbody>
+			<tr th:each="message : ${Store}">
+            <td th:text="${message.getId()}">1</td>
+            <td th:text="${message.getCapital()}">Capital</td>
+            <td th:text="${message.getTransactionKey()}">Last Transaction</td>
+		    </tr>
+	    </tbody>
+    </table>
 </body>
 </html>

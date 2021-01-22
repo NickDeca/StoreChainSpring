@@ -30,18 +30,19 @@ public class SuppliersController {
 	}
 	
 	@GetMapping("/All")
-	public @ResponseBody Iterable<Suppliers> getAllProducts(){
-		return SupplierContext.findAll();
+	public String getAllSuppliers(Model model){
+		model.addAttribute("Suppliers", SupplierContext.findAll());
+		return "SuppliersViews/SuppliersAll";
 	}
 	
 	@GetMapping("/Create")
-	public String CreateNewProductGet(Model model) {
+	public String CreateNewSupplierGet(Model model) {
 	    model.addAttribute("Suppliers", new Suppliers());
 		return "SuppliersViews/CreateSuppliers";
 	}
 	
 	@PostMapping("/Create")
-	public String CreateNewProduct(@ModelAttribute Suppliers supplier, Model model){
+	public String CreateNewSupplier(@ModelAttribute Suppliers supplier, Model model){
 			
 		SupplierContext.save(supplier);		
 	    model.addAttribute("Suppliers", new Suppliers());
@@ -49,7 +50,7 @@ public class SuppliersController {
 	}
 	
 	@GetMapping("/Update")
-	public String UpdateProductGet(Model model) {
+	public String UpdateSupplierGet(Model model) {
 	    model.addAttribute("Suppliers", new Suppliers());
 		return "SuppliersViews/UpdateSuppliers";
 	}

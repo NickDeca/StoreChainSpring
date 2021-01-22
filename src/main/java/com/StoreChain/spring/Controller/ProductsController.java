@@ -35,8 +35,9 @@ public class ProductsController {
 	}
 	
 	@GetMapping("/All")
-	public @ResponseBody Iterable<Products> getAllProducts(){
-		return productContext.findAll();
+	public String getAllProducts(Model model){
+		model.addAttribute("Products", productContext.findAll());
+		return "ProductsViews/ProductsAll";
 	}
 	
 	@GetMapping("/Create")
